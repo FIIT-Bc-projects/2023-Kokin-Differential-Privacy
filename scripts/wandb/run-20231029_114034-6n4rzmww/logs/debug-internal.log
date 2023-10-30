@@ -1,0 +1,400 @@
+2023-10-29 11:40:34,631 INFO    StreamThr :19584 [internal.py:wandb_internal():86] W&B internal server running at pid: 19584, started at: 2023-10-29 11:40:34.630498
+2023-10-29 11:40:34,633 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status
+2023-10-29 11:40:34,637 INFO    WriterThread:19584 [datastore.py:open_for_write():85] open: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\run-6n4rzmww.wandb
+2023-10-29 11:40:34,637 DEBUG   SenderThread:19584 [sender.py:send():380] send: header
+2023-10-29 11:40:34,700 DEBUG   SenderThread:19584 [sender.py:send():380] send: run
+2023-10-29 11:40:35,171 INFO    SenderThread:19584 [dir_watcher.py:__init__():211] watching files in: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files
+2023-10-29 11:40:35,172 INFO    SenderThread:19584 [sender.py:_start_run_threads():1122] run started: 6n4rzmww with start time 1698576034.632501
+2023-10-29 11:40:35,174 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: check_version
+2023-10-29 11:40:35,176 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: check_version
+2023-10-29 11:40:35,301 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: run_start
+2023-10-29 11:40:35,313 DEBUG   HandlerThread:19584 [system_info.py:__init__():32] System info init
+2023-10-29 11:40:35,313 DEBUG   HandlerThread:19584 [system_info.py:__init__():47] System info init done
+2023-10-29 11:40:35,313 INFO    HandlerThread:19584 [system_monitor.py:start():194] Starting system monitor
+2023-10-29 11:40:35,314 INFO    SystemMonitor:19584 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2023-10-29 11:40:35,314 INFO    HandlerThread:19584 [system_monitor.py:probe():214] Collecting system info
+2023-10-29 11:40:35,318 INFO    SystemMonitor:19584 [interfaces.py:start():190] Started cpu monitoring
+2023-10-29 11:40:35,322 DEBUG   HandlerThread:19584 [system_info.py:probe():196] Probing system
+2023-10-29 11:40:35,322 INFO    SystemMonitor:19584 [interfaces.py:start():190] Started disk monitoring
+2023-10-29 11:40:35,329 INFO    SystemMonitor:19584 [interfaces.py:start():190] Started memory monitoring
+2023-10-29 11:40:35,340 INFO    SystemMonitor:19584 [interfaces.py:start():190] Started network monitoring
+2023-10-29 11:40:35,341 DEBUG   HandlerThread:19584 [system_info.py:_probe_git():181] Probing git
+2023-10-29 11:40:35,419 DEBUG   HandlerThread:19584 [system_info.py:_probe_git():189] Probing git done
+2023-10-29 11:40:35,420 DEBUG   HandlerThread:19584 [system_info.py:probe():244] Probing system done
+2023-10-29 11:40:35,420 DEBUG   HandlerThread:19584 [system_monitor.py:probe():223] {'os': 'Windows-10-10.0.22621-SP0', 'python': '3.9.12', 'heartbeatAt': '2023-10-29T10:40:35.322427', 'startedAt': '2023-10-29T10:40:34.614111', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': 'D:\\Study\\BP\\Implementation\\ml_tuning\\ml_tuning\\heartdesease_privacy.py', 'codePathLocal': 'heartdesease_privacy.py', 'codePath': 'ml_tuning\\heartdesease_privacy.py', 'git': {'remote': 'https://github.com/FIIT-Bc-projects/2023-Kokin-Differential-Privacy.git', 'commit': '6223f66bc727ef45fed1db446bb87e0d54550193'}, 'email': '=', 'root': 'D:/Study/BP/Implementation/ml_tuning', 'host': 'OldSport', 'username': 'glebk', 'executable': 'D:\\Study\\BP\\Implementation\\venv\\Scripts\\python.exe', 'cpu_count': 6, 'cpu_count_logical': 6, 'cpu_freq': {'current': 2375.0, 'min': 0.0, 'max': 2375.0}, 'cpu_freq_per_core': [{'current': 2375.0, 'min': 0.0, 'max': 2375.0}], 'disk': {'/': {'total': 376.99999618530273, 'used': 105.92750549316406}}, 'memory': {'total': 7.372367858886719}}
+2023-10-29 11:40:35,420 INFO    HandlerThread:19584 [system_monitor.py:probe():224] Finished collecting system info
+2023-10-29 11:40:35,420 INFO    HandlerThread:19584 [system_monitor.py:probe():227] Publishing system info
+2023-10-29 11:40:35,420 DEBUG   HandlerThread:19584 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-10-29 11:40:35,421 DEBUG   HandlerThread:19584 [system_info.py:_save_pip():68] Saving pip packages done
+2023-10-29 11:40:35,422 INFO    HandlerThread:19584 [system_monitor.py:probe():229] Finished publishing system info
+2023-10-29 11:40:35,432 DEBUG   SenderThread:19584 [sender.py:send():380] send: files
+2023-10-29 11:40:35,432 INFO    SenderThread:19584 [sender.py:_save_file():1378] saving file wandb-metadata.json with policy now
+2023-10-29 11:40:35,439 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:40:35,440 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:40:35,442 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:40:35,676 DEBUG   SenderThread:19584 [sender.py:send():380] send: telemetry
+2023-10-29 11:40:35,676 DEBUG   SenderThread:19584 [sender.py:send():380] send: telemetry
+2023-10-29 11:40:35,676 DEBUG   SenderThread:19584 [sender.py:send():380] send: telemetry
+2023-10-29 11:40:36,180 INFO    wandb-upload_0:19584 [upload_job.py:push():131] Uploaded file C:\Users\glebk\AppData\Local\Temp\tmpmi34p116wandb\j7l00isz-wandb-metadata.json
+2023-10-29 11:40:36,183 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_created():271] file/dir created: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\requirements.txt
+2023-10-29 11:40:36,183 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_created():271] file/dir created: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\wandb-metadata.json
+2023-10-29 11:40:38,203 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_created():271] file/dir created: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:40,056 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:40:40,225 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:44,241 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:45,093 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:40:46,266 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:48,282 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:50,110 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:40:50,302 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:50,441 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:40:50,456 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:40:50,457 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:40:52,319 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:54,334 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:55,517 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:40:56,339 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:40:58,363 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:00,386 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:00,518 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:02,393 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:04,417 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:05,444 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:41:05,459 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:41:05,460 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:41:05,791 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:06,439 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:07,448 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\config.yaml
+2023-10-29 11:41:10,465 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:12,322 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:12,478 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:14,508 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:16,530 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:17,352 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:18,551 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:20,445 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:41:20,461 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:41:20,461 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:41:20,554 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:22,402 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:22,569 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:24,590 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:26,618 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:27,599 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:28,638 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:30,650 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:32,618 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:32,665 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:34,673 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:35,353 DEBUG   SystemMonitor:19584 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2023-10-29 11:41:35,353 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:41:35,461 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:41:35,477 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:41:35,477 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:41:36,684 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:37,622 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:38,691 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:40,713 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:42,658 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:42,734 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:44,746 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:46,767 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:47,694 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:48,790 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:50,466 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:41:50,498 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:41:50,499 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:41:50,811 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:52,747 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:52,821 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:54,846 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:56,872 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:57,752 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:41:58,892 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:41:59,903 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:01,927 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:03,067 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:03,947 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:05,364 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:42:05,473 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:42:05,504 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:42:05,505 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:42:05,972 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:07,988 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:08,094 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:10,003 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:12,022 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:13,106 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:14,039 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:16,051 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:18,067 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:18,547 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:20,080 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:20,488 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:42:20,503 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:42:20,504 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:42:22,099 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:23,549 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:24,105 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:26,119 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:28,133 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:28,554 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:30,152 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:32,155 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:34,021 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:34,181 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:35,367 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:42:35,490 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:42:35,506 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:42:35,507 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:42:36,209 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:38,222 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:39,034 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:40,242 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:42,253 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:44,063 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:44,261 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:46,269 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:48,283 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:49,369 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:50,296 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:50,482 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:42:50,514 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:42:50,514 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:42:52,310 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:54,319 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:54,407 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:42:56,338 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:58,352 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:42:59,444 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:00,365 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:02,372 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:04,389 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:04,709 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:05,376 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:43:05,486 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:43:05,516 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:43:05,517 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:43:06,404 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:08,423 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:09,724 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:10,447 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:12,469 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:14,483 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:14,768 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:16,509 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:18,528 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:20,037 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:20,501 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:43:20,533 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:43:20,533 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:43:20,549 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:22,572 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:24,585 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:25,061 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:26,614 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:28,637 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:30,087 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:30,650 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:32,662 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:34,681 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:35,097 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:35,381 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:43:35,503 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:43:35,534 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:43:35,534 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:43:36,694 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:38,700 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:40,117 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:40,720 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:42,733 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:44,757 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:45,151 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:46,763 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:48,772 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:50,158 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:50,519 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:43:50,534 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:43:50,535 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:43:50,781 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:52,804 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:54,832 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:55,185 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:43:56,858 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:43:58,862 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:00,186 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:00,873 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:02,892 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:04,906 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:05,208 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:05,393 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:44:05,531 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:44:05,531 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:44:05,531 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:44:06,925 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:08,953 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:10,324 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:10,980 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:12,989 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:15,003 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:15,359 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:17,020 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:19,026 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:20,380 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:20,537 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:44:20,538 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:44:20,539 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:44:21,043 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:23,060 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:25,087 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:25,638 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:27,108 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:29,130 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:30,646 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:31,144 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:33,149 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:35,169 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:35,404 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:44:35,529 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:44:35,544 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: stop_status
+2023-10-29 11:44:35,545 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: stop_status
+2023-10-29 11:44:35,773 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:37,175 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:37,927 DEBUG   SenderThread:19584 [sender.py:send():380] send: exit
+2023-10-29 11:44:37,927 INFO    SenderThread:19584 [sender.py:send_exit():585] handling exit code: 0
+2023-10-29 11:44:37,928 INFO    SenderThread:19584 [sender.py:send_exit():587] handling runtime: 242
+2023-10-29 11:44:37,929 INFO    SenderThread:19584 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-10-29 11:44:37,929 INFO    SenderThread:19584 [sender.py:send_exit():593] send defer
+2023-10-29 11:44:37,930 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,930 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 0
+2023-10-29 11:44:37,930 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,930 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 0
+2023-10-29 11:44:37,930 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 1
+2023-10-29 11:44:37,930 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,930 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 1
+2023-10-29 11:44:37,931 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,931 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 1
+2023-10-29 11:44:37,931 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 2
+2023-10-29 11:44:37,931 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,931 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 2
+2023-10-29 11:44:37,931 INFO    HandlerThread:19584 [system_monitor.py:finish():203] Stopping system monitor
+2023-10-29 11:44:37,931 DEBUG   SystemMonitor:19584 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2023-10-29 11:44:37,932 DEBUG   SystemMonitor:19584 [system_monitor.py:_start():183] Publishing last batch of metrics
+2023-10-29 11:44:37,931 INFO    HandlerThread:19584 [interfaces.py:finish():202] Joined cpu monitor
+2023-10-29 11:44:37,932 INFO    HandlerThread:19584 [interfaces.py:finish():202] Joined disk monitor
+2023-10-29 11:44:37,933 INFO    HandlerThread:19584 [interfaces.py:finish():202] Joined memory monitor
+2023-10-29 11:44:37,933 INFO    HandlerThread:19584 [interfaces.py:finish():202] Joined network monitor
+2023-10-29 11:44:37,933 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,934 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 2
+2023-10-29 11:44:37,934 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 3
+2023-10-29 11:44:37,934 DEBUG   SenderThread:19584 [sender.py:send():380] send: stats
+2023-10-29 11:44:37,934 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,934 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 3
+2023-10-29 11:44:37,935 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,935 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 3
+2023-10-29 11:44:37,935 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 4
+2023-10-29 11:44:37,935 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,935 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 4
+2023-10-29 11:44:37,935 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,935 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 4
+2023-10-29 11:44:37,935 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 5
+2023-10-29 11:44:37,936 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,936 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 5
+2023-10-29 11:44:37,936 DEBUG   SenderThread:19584 [sender.py:send():380] send: summary
+2023-10-29 11:44:37,937 INFO    SenderThread:19584 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-10-29 11:44:37,938 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,938 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 5
+2023-10-29 11:44:37,938 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 6
+2023-10-29 11:44:37,938 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,938 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 6
+2023-10-29 11:44:37,938 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,939 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 6
+2023-10-29 11:44:37,939 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 7
+2023-10-29 11:44:37,939 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: status_report
+2023-10-29 11:44:37,939 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:37,939 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 7
+2023-10-29 11:44:37,939 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:37,939 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 7
+2023-10-29 11:44:38,190 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_created():271] file/dir created: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\wandb-summary.json
+2023-10-29 11:44:38,940 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: poll_exit
+2023-10-29 11:44:39,035 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 8
+2023-10-29 11:44:39,035 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: poll_exit
+2023-10-29 11:44:39,035 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:39,036 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 8
+2023-10-29 11:44:39,036 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:39,036 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 8
+2023-10-29 11:44:39,036 INFO    SenderThread:19584 [job_builder.py:build():281] Attempting to build job artifact
+2023-10-29 11:44:39,037 INFO    SenderThread:19584 [job_builder.py:_get_source_type():393] is repo sourced job
+2023-10-29 11:44:39,077 INFO    SenderThread:19584 [job_builder.py:build():369] adding wandb-job metadata file
+2023-10-29 11:44:39,098 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 9
+2023-10-29 11:44:39,099 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:39,099 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 9
+2023-10-29 11:44:39,099 DEBUG   SenderThread:19584 [sender.py:send():380] send: artifact
+2023-10-29 11:44:39,204 INFO    Thread-18 :19584 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:39,952 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: poll_exit
+2023-10-29 11:44:40,508 INFO    wandb-upload_0:19584 [upload_job.py:push():89] Uploaded file C:\Users\glebk\AppData\Local\wandb\wandb\artifacts\staging\tmplvemfs29
+2023-10-29 11:44:40,514 INFO    wandb-upload_1:19584 [upload_job.py:push():89] Uploaded file C:\Users\glebk\AppData\Local\wandb\wandb\artifacts\staging\tmprwocgkfu
+2023-10-29 11:44:41,599 INFO    SenderThread:19584 [sender.py:send_artifact():1456] sent artifact job-https___github.com_FIIT-Bc-projects_2023-Kokin-Differential-Privacy.git_ml_tuning_heartdesease_privacy.py - {'id': 'QXJ0aWZhY3Q6NjIxMDA3ODM5', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjExMDg2MTg5OA==', 'latestArtifact': None}}
+2023-10-29 11:44:41,599 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:41,599 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 9
+2023-10-29 11:44:41,599 INFO    SenderThread:19584 [dir_watcher.py:finish():358] shutting down directory watcher
+2023-10-29 11:44:42,239 INFO    SenderThread:19584 [dir_watcher.py:finish():388] scan: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files
+2023-10-29 11:44:42,239 INFO    SenderThread:19584 [dir_watcher.py:finish():402] scan save: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\config.yaml config.yaml
+2023-10-29 11:44:42,240 INFO    SenderThread:19584 [dir_watcher.py:finish():402] scan save: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log output.log
+2023-10-29 11:44:42,240 INFO    SenderThread:19584 [dir_watcher.py:finish():402] scan save: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\requirements.txt requirements.txt
+2023-10-29 11:44:42,244 INFO    SenderThread:19584 [dir_watcher.py:finish():402] scan save: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\wandb-metadata.json wandb-metadata.json
+2023-10-29 11:44:42,245 INFO    SenderThread:19584 [dir_watcher.py:finish():402] scan save: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\wandb-summary.json wandb-summary.json
+2023-10-29 11:44:42,248 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 10
+2023-10-29 11:44:42,249 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: poll_exit
+2023-10-29 11:44:42,249 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:42,251 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 10
+2023-10-29 11:44:42,251 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:42,252 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 10
+2023-10-29 11:44:42,252 INFO    SenderThread:19584 [file_pusher.py:finish():175] shutting down file pusher
+2023-10-29 11:44:42,647 INFO    wandb-upload_0:19584 [upload_job.py:push():131] Uploaded file D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\config.yaml
+2023-10-29 11:44:42,728 INFO    wandb-upload_1:19584 [upload_job.py:push():131] Uploaded file D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\output.log
+2023-10-29 11:44:42,773 INFO    wandb-upload_2:19584 [upload_job.py:push():131] Uploaded file D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\requirements.txt
+2023-10-29 11:44:42,792 INFO    wandb-upload_3:19584 [upload_job.py:push():131] Uploaded file D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\files\wandb-summary.json
+2023-10-29 11:44:43,000 INFO    Thread-17 :19584 [sender.py:transition_state():613] send defer: 11
+2023-10-29 11:44:43,000 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:43,000 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 11
+2023-10-29 11:44:43,001 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:43,001 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 11
+2023-10-29 11:44:43,001 INFO    SenderThread:19584 [file_pusher.py:join():181] waiting for file pusher
+2023-10-29 11:44:43,001 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 12
+2023-10-29 11:44:43,001 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:43,001 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 12
+2023-10-29 11:44:43,002 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:43,002 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 12
+2023-10-29 11:44:43,002 INFO    SenderThread:19584 [file_stream.py:finish():595] file stream finish called
+2023-10-29 11:44:43,540 INFO    SenderThread:19584 [file_stream.py:finish():599] file stream finish is done
+2023-10-29 11:44:43,540 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 13
+2023-10-29 11:44:43,540 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:43,540 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 13
+2023-10-29 11:44:43,540 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:43,540 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 13
+2023-10-29 11:44:43,541 INFO    SenderThread:19584 [sender.py:transition_state():613] send defer: 14
+2023-10-29 11:44:43,541 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: defer
+2023-10-29 11:44:43,541 INFO    HandlerThread:19584 [handler.py:handle_request_defer():172] handle defer: 14
+2023-10-29 11:44:43,541 DEBUG   SenderThread:19584 [sender.py:send():380] send: final
+2023-10-29 11:44:43,541 DEBUG   SenderThread:19584 [sender.py:send():380] send: footer
+2023-10-29 11:44:43,542 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: defer
+2023-10-29 11:44:43,542 INFO    SenderThread:19584 [sender.py:send_request_defer():609] handle sender defer: 14
+2023-10-29 11:44:43,542 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: poll_exit
+2023-10-29 11:44:43,542 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: server_info
+2023-10-29 11:44:43,542 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: get_summary
+2023-10-29 11:44:43,543 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: sampled_history
+2023-10-29 11:44:43,543 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: internal_messages
+2023-10-29 11:44:43,543 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: poll_exit
+2023-10-29 11:44:43,543 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: job_info
+2023-10-29 11:44:43,543 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: server_info
+2023-10-29 11:44:43,687 DEBUG   SenderThread:19584 [sender.py:send_request():407] send_request: job_info
+2023-10-29 11:44:43,688 INFO    MainThread:19584 [wandb_run.py:_footer_history_summary_info():3599] rendering history
+2023-10-29 11:44:43,688 INFO    MainThread:19584 [wandb_run.py:_footer_history_summary_info():3631] rendering summary
+2023-10-29 11:44:43,688 INFO    MainThread:19584 [wandb_run.py:_footer_sync_info():3558] logging synced files
+2023-10-29 11:44:43,688 DEBUG   HandlerThread:19584 [handler.py:handle_request():146] handle_request: shutdown
+2023-10-29 11:44:43,688 INFO    HandlerThread:19584 [handler.py:finish():866] shutting down handler
+2023-10-29 11:44:44,555 INFO    WriterThread:19584 [datastore.py:close():294] close: D:\Study\BP\Implementation\ml_tuning\ml_tuning\wandb\run-20231029_114034-6n4rzmww\run-6n4rzmww.wandb
+2023-10-29 11:44:44,695 INFO    SenderThread:19584 [sender.py:finish():1534] shutting down sender
+2023-10-29 11:44:44,695 INFO    SenderThread:19584 [file_pusher.py:finish():175] shutting down file pusher
+2023-10-29 11:44:44,695 INFO    SenderThread:19584 [file_pusher.py:join():181] waiting for file pusher

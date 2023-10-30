@@ -1,0 +1,138 @@
+wandb_version: 1
+
+alsologtostderr:
+  desc: null
+  value: false
+batch_size:
+  desc: null
+  value: 250
+delta_threshold:
+  desc: null
+  value: 0.5
+dpsgd:
+  desc: null
+  value: true
+epochs:
+  desc: null
+  value: 60
+hbm_oom_exit:
+  desc: null
+  value: true
+l2_norm_clip:
+  desc: null
+  value: 1.5
+learning_rate:
+  desc: null
+  value: 0.015
+log_dir:
+  desc: null
+  value: ''
+logger_levels:
+  desc: null
+  value: {}
+logtostderr:
+  desc: null
+  value: false
+microbatches:
+  desc: null
+  value: 1
+model_dir:
+  desc: null
+  value: null
+noise_multiplier:
+  desc: null
+  value: 1.5
+only_check_args:
+  desc: null
+  value: false
+op_conversion_fallback_to_while_loop:
+  desc: null
+  value: true
+pdb:
+  desc: null
+  value: false
+pdb_post_mortem:
+  desc: null
+  value: false
+profile_file:
+  desc: null
+  value: null
+run_with_pdb:
+  desc: null
+  value: false
+run_with_profiling:
+  desc: null
+  value: false
+runtime_oom_exit:
+  desc: null
+  value: true
+showprefixforinfo:
+  desc: null
+  value: true
+stderrthreshold:
+  desc: null
+  value: fatal
+test_random_seed:
+  desc: null
+  value: 301
+test_randomize_ordering_seed:
+  desc: null
+  value: ''
+test_srcdir:
+  desc: null
+  value: ''
+test_tmpdir:
+  desc: null
+  value: C:\Users\glebk\AppData\Local\Temp\absl_testing
+tt_check_filter:
+  desc: null
+  value: false
+tt_single_core_summaries:
+  desc: null
+  value: false
+use_cprofile_for_profiling:
+  desc: null
+  value: true
+v:
+  desc: null
+  value: -1
+verbosity:
+  desc: null
+  value: -1
+xml_output_file:
+  desc: null
+  value: ''
+_wandb:
+  desc: null
+  value:
+    python_version: 3.9.12
+    cli_version: 0.15.12
+    framework: keras
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1698576034.632501
+    t:
+      1:
+      - 2
+      - 3
+      - 5
+      - 53
+      - 55
+      2:
+      - 2
+      - 3
+      - 5
+      - 53
+      - 55
+      3:
+      - 16
+      - 23
+      - 24
+      - 34
+      - 35
+      4: 3.9.12
+      5: 0.15.12
+      8:
+      - 3
+      - 5
+      13: windows-amd64

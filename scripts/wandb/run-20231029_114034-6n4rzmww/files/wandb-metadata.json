@@ -1,0 +1,45 @@
+{
+    "os": "Windows-10-10.0.22621-SP0",
+    "python": "3.9.12",
+    "heartbeatAt": "2023-10-29T10:40:35.322427",
+    "startedAt": "2023-10-29T10:40:34.614111",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "D:\\Study\\BP\\Implementation\\ml_tuning\\ml_tuning\\heartdesease_privacy.py",
+    "codePathLocal": "heartdesease_privacy.py",
+    "codePath": "ml_tuning\\heartdesease_privacy.py",
+    "git": {
+        "remote": "https://github.com/FIIT-Bc-projects/2023-Kokin-Differential-Privacy.git",
+        "commit": "6223f66bc727ef45fed1db446bb87e0d54550193"
+    },
+    "email": "=",
+    "root": "D:/Study/BP/Implementation/ml_tuning",
+    "host": "OldSport",
+    "username": "glebk",
+    "executable": "D:\\Study\\BP\\Implementation\\venv\\Scripts\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 6,
+    "cpu_freq": {
+        "current": 2375.0,
+        "min": 0.0,
+        "max": 2375.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2375.0,
+            "min": 0.0,
+            "max": 2375.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 376.99999618530273,
+            "used": 105.92750549316406
+        }
+    },
+    "memory": {
+        "total": 7.372367858886719
+    }
+}
