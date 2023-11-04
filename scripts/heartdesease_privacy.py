@@ -28,15 +28,15 @@ env = Env()
 flags.DEFINE_boolean(
     'dpsgd', True, 'If True, train with DP-SGD. If False, '
                    'train with vanilla SGD.')
-flags.DEFINE_float('learning_rate', 0.1, 'Learning rate for training')
+flags.DEFINE_float('learning_rate', 0.001, 'Learning rate for training')
 flags.DEFINE_float('noise_multiplier', 1,
                    'Ratio of the standard deviation to the clipping norm')
 flags.DEFINE_float('l2_norm_clip', 1.5, 'Clipping norm')
-flags.DEFINE_integer('batch_size', 256, 'Batch size')
-flags.DEFINE_integer('epochs', 3, 'Number of epochs')
+flags.DEFINE_integer('batch_size', 64, 'Batch size')
+flags.DEFINE_integer('epochs', 6, 'Number of epochs')
 flags.DEFINE_integer(
-    'microbatches', 256, 'Number of microbatches '
-                         '(must evenly divide batch_size)')
+    'microbatches', 16, 'Number of microbatches '
+                        '(must evenly divide batch_size)')
 flags.DEFINE_string('model_dir', None, 'Model directory')
 
 FLAGS = flags.FLAGS
@@ -47,6 +47,12 @@ FLAGS(sys.argv)
 """ Create and compile model"""
 
 
+def get_layers():
+    return [tf.keras.layers.InputLayer(input_shape=(17,)),
+            tf.keras.layers.Dense(3, activation='relu'),
+            tf.keras.layers.Dense(1, activation='sigmoid')]
+
+
 def create_model():
     if env.bool("DP", False) is True:
 
@@ -55,12 +61,7 @@ def create_model():
             l2_norm_clip=FLAGS.l2_norm_clip,
             noise_multiplier=FLAGS.noise_multiplier,
             num_microbatches=FLAGS.microbatches,
-            layers=[
-                tf.keras.layers.InputLayer(input_shape=(17,)),
-                tf.keras.layers.Dense(51, activation='relu'),
-                tf.keras.layers.Dense(81, activation='relu'),
-                tf.keras.layers.Dense(10, activation='relu'),
-                tf.keras.layers.Dense(1, activation='sigmoid')])
+            layers=get_layers())
 
         optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
 
@@ -73,12 +74,8 @@ def create_model():
         return model
     else:
         """Regular model """
-        model = tf.keras.Sequential([
-            tf.keras.layers.InputLayer(input_shape=(17,)),
-            tf.keras.layers.Dense(51, activation='relu'),
-            tf.keras.layers.Dense(81, activation='relu'),
-            tf.keras.layers.Dense(10, activation='relu'),
-            tf.keras.layers.Dense(1, activation='sigmoid')])
+        model = tf.keras.Sequential(
+            get_layers())
 
         model.compile(optimizer='sgd',
                       loss='binary_crossentropy',
@@ -188,7 +185,6 @@ def get_preprocessed_data():
 
 
 def calculate_model(x_train, x_test, y_train, y_test, m):
-
     if FLAGS.batch_size % FLAGS.microbatches != 0:
         raise ValueError('Batch size should be an integer multiple of the number of microbatches')
 
@@ -196,12 +192,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m):
         l2_norm_clip=FLAGS.l2_norm_clip,
         noise_multiplier=FLAGS.noise_multiplier,
         num_microbatches=FLAGS.microbatches,
-        layers=[
-            tf.keras.layers.InputLayer(input_shape=(17,)),
-            tf.keras.layers.Dense(51, activation='relu'),
-            tf.keras.layers.Dense(81, activation='relu'),
-            tf.keras.layers.Dense(10, activation='relu'),
-            tf.keras.layers.Dense(1, activation='sigmoid')])
+        layers=get_layers())
 
     # optimizer = DPKerasSGDOptimizer(
     #     l2_norm_clip=m['l2_norm_clip'],
@@ -306,18 +297,25 @@ def main():
     # print(f"\nTest Accuracy: {accuracy_score:.0%}\n")
 
     """ Grid Search """
-    if env.bool("GRID", False) is True:
+    if env.bool("DP", False) is True:
         model_grid = []
 
         aVals = [1 / 8, .25, .5, 1, 2]
 
-        for norm_clip in aVals:
-            for noise_mul in aVals:
-                model_grid.append({
-                    'l2_norm_clip': FLAGS.l2_norm_clip * norm_clip,
-                    'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
-                    'epochs': FLAGS.epochs,
-                })
+        # for norm_clip in aVals:
+        #     for noise_mul in aVals:
+        #         model_grid.append({
+        #             'l2_norm_clip': FLAGS.l2_norm_clip * norm_clip,
+        #             'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
+        #             'epochs': FLAGS.epochs,
+        #         })
+
+        for noise_mul in aVals:
+            model_grid.append({
+                'l2_norm_clip': FLAGS.l2_norm_clip * aVals[0],
+                'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
+                'epochs': FLAGS.epochs,
+            })
 
         for m in model_grid:
             calculate_model(
@@ -329,14 +327,15 @@ def main():
             privacy_results = pd.DataFrame(columns=['epsilon', 'noise_multiplier', 'l2_norm_clip'])
             for m in model_grid:
                 epsilon = compute_epsilon(FLAGS.epochs * 256000 // FLAGS.batch_size, m['noise_multiplier'])
-                new_row = {'epsilon': epsilon, 'noise_multiplier': m['noise_multiplier'], 'l2_norm_clip': m['l2_norm_clip']}
-                privacy_results.concat(new_row, inplace=True)
+                new_row = {'epsilon': epsilon, 'noise_multiplier': m['noise_multiplier'],
+                           'l2_norm_clip': m['l2_norm_clip']}
+                privacy_results.loc[len(privacy_results)] = new_row
                 print('Computed epsilon for delta=1e-6: %.2f' % epsilon)
 
             uniques = privacy_results['l2_norm_clip'].unique()
             for u in uniques:
                 actual = privacy_results[privacy_results["l2_norm_clip"] == u]
-                plt.plot(actual)
+                plt.plot(actual["noise_multiplier"], actual["epsilon"])
                 plt.title('model epsilon values for l2_norm_clip ' + str(actual['l2_norm_clip']))
                 plt.ylabel('epsilon')
                 plt.xlabel('noise_multiplier')
