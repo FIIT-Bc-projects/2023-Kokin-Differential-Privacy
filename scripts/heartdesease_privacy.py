@@ -1,8 +1,10 @@
 """ IMPORTING LIBRARIES AND LOADING DATA """
+import datetime
 import os
 import sys
 import dp_accounting
 import pandas as pd
+from IPython.display import display
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -23,67 +25,62 @@ from environs import Env
 """ Environmental variables """
 env = Env()
 
+""" Directories and timestamps """
+actual_dir = None
+timestamp = None
 """ Hyperparameters """
 
-flags.DEFINE_boolean(
-    'dpsgd', True, 'If True, train with DP-SGD. If False, '
-                   'train with vanilla SGD.')
-flags.DEFINE_float('learning_rate', 0.001, 'Learning rate for training')
+flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for training')
 flags.DEFINE_float('noise_multiplier', 1,
                    'Ratio of the standard deviation to the clipping norm')
 flags.DEFINE_float('l2_norm_clip', 1.5, 'Clipping norm')
-flags.DEFINE_integer('batch_size', 64, 'Batch size')
+flags.DEFINE_integer('batch_size', 50, 'Batch size')
 flags.DEFINE_integer('epochs', 6, 'Number of epochs')
 flags.DEFINE_integer(
-    'microbatches', 16, 'Number of microbatches '
+    'microbatches', 50, 'Number of microbatches '
                         '(must evenly divide batch_size)')
-flags.DEFINE_string('model_dir', None, 'Model directory')
 
 FLAGS = flags.FLAGS
 FLAGS(sys.argv)
 
-# wandb.init(config=FLAGS, sync_tensorboard=True)
-
 """ Create and compile model"""
 
 
-def get_layers():
-    return [tf.keras.layers.InputLayer(input_shape=(17,)),
-            tf.keras.layers.Dense(3, activation='relu'),
+def get_layers_Binary_Classification():
+    return [tf.keras.layers.InputLayer(input_shape=(39,)),
+            tf.keras.layers.Dense(5, activation='relu'),
             tf.keras.layers.Dense(1, activation='sigmoid')]
 
 
-def create_model():
-    if env.bool("DP", False) is True:
+def get_layers_linear_regression():
+    return [tf.keras.layers.Dense(1, activation="linear")]
 
-        """DP model with regular optimizer and regular loss"""
-        model = dp_keras_model.DPSequential(
-            l2_norm_clip=FLAGS.l2_norm_clip,
-            noise_multiplier=FLAGS.noise_multiplier,
-            num_microbatches=FLAGS.microbatches,
-            layers=get_layers())
 
-        optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
+def create_baseline_models():
+    model = []
 
-        model.compile(
-            optimizer=optimizer,
-            loss="mse",
-            metrics=['accuracy']
-        )
+    """Regular Binary Classification Baseline"""
+    model_baseline_binary = tf.keras.Sequential(
+        get_layers_Binary_Classification())
 
-        return model
-    else:
-        """Regular model """
-        model = tf.keras.Sequential(
-            get_layers())
+    optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
 
-        model.compile(optimizer='sgd',
-                      loss='binary_crossentropy',
-                      metrics='accuracy')
-        return model
+    model_baseline_binary.compile(optimizer=optimizer,
+                                  loss='mse',
+                                  metrics='accuracy')
 
-    # TODO append a tf_privacy Estimator with Differentially private model, optimizer and loss function,
-    #  implement main
+    model_baseline_linear = tf.keras.Sequential(
+        get_layers_Binary_Classification())
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=FLAGS.learning_rate)
+
+    model_baseline_linear.compile(optimizer=optimizer,
+                                  loss='mean_squared_error',
+                                  metrics='accuracy')
+
+    model.append(model_baseline_binary)
+    model.append(model_baseline_linear)
+    return model
 
 
 """ Computes epsilon value for given hyperparameters """
@@ -95,7 +92,7 @@ def compute_epsilon(steps):
     orders = [1 + x / 10. for x in range(1, 100)] + list(range(12, 64))
     accountant = dp_accounting.rdp.RdpAccountant(orders)
 
-    sampling_probability = FLAGS.batch_size / 256000
+    sampling_probability = FLAGS.batch_size / 180000
     event = dp_accounting.SelfComposedDpEvent(
         dp_accounting.PoissonSampledDpEvent(
             sampling_probability,
@@ -113,7 +110,7 @@ def compute_epsilon(steps, noise_multiplier):
     orders = [1 + x / 10. for x in range(1, 100)] + list(range(12, 64))
     accountant = dp_accounting.rdp.RdpAccountant(orders)
 
-    sampling_probability = FLAGS.batch_size / 256000
+    sampling_probability = FLAGS.batch_size / 180000
     event = dp_accounting.SelfComposedDpEvent(
         dp_accounting.PoissonSampledDpEvent(
             sampling_probability,
@@ -128,57 +125,29 @@ def compute_epsilon(steps, noise_multiplier):
 def get_preprocessed_data():
     df = pd.read_csv(os.environ['DATASET_PATH'])
 
-    """ Exploratory data analysis and preprocessing"""
-    if env.bool("EDA_DETAILED", False) is True:
-        msno.matrix(df)
-        plt.figure(figsize=(15, 9))
-        plt.show()
+    wandb.log({"dataset": wandb.Table(dataframe=df)})
 
-    df.HeartDisease.value_counts()
+    print(df.LastCheckupTime.value_counts())
+    print(df.State.value_counts())
+    print(df.HadHeartAttack.unique)
 
-    if env.bool("EDA_DETAILED", False) is True:
-        plt.figure(figsize=(10, 6))
-        sns.countplot(x='HeartDisease', data=df).set_title('Distribution of Target Variable')
+    y = df.HadHeartAttack.replace(['Yes', 'No'], [1, 0])
 
-    df['Diabetic'].unique()
+    x = df.drop('HadHeartAttack', axis=1)
+    pd.set_option('display.max_columns', None)
+    display(x)
 
-    diabetic = {'Yes': 0.80, 'No': 0.00, 'No, borderline diabetes': 0.5, 'Yes (during pregnancy)': 1.00}
-    df['Diabetic'] = df['Diabetic'].apply(lambda ld: diabetic[ld])
-    df['Diabetic'] = df['Diabetic'].astype('float')
+    # encode categorical data to numerical
+    enc = LabelEncoder()
+    for i in x.columns:
+        if x[i].dtype == 'object':
+            x[i] = enc.fit_transform(x[i])
+    print(x.info())
 
-    df['AgeCategory'].unique()
-    ageCategory = {'55-59': 57, '80 or older': 80, '65-69': 67, '75-79': 77, '40-44': 42, '70-74': 72,
-                   '60-64': 62, '50-54': 52, '45-49': 47, '18-24': 21, '35-39': 37, '30-34': 32, '25-29': 27}
-    df['AgeCategory'] = df['AgeCategory'].apply(lambda ld: ageCategory[ld])
-    df['AgeCategory'] = df['AgeCategory'].astype('float')
+    x.drop(axis=0, index=x.index[-22:], inplace=True)
+    y.drop(axis=0, index=y.index[-22:], inplace=True)
 
-    df['Race'].unique()
-
-    si = LabelEncoder()
-    si.fit(df['HeartDisease'])
-    df['HeartDisease'] = si.transform(df['HeartDisease'])
-
-    df.head()
-
-    cat = [col for col in df.columns if df[col].dtypes == 'object']
-
-    if env.bool("EDA_DETAILED", False) is True:
-        plt.figure(figsize=(16, 8))
-        for i in cat:
-            sns.catplot(y='HeartDisease', x=i, hue='Sex', data=df, kind='bar')
-
-        for i in cat:
-            sns.catplot(y='HeartDisease', x=i, hue='Sex', data=df, kind='point')
-
-    allc = [col for col in df.columns]
-    print(list(set(allc) - set(cat)))
-
-    si = LabelEncoder()
-    for i in cat:
-        si.fit(df[i])
-        df[i] = si.transform(df[i])
-
-    return df
+    return x, y
 
 
 """ Grid search approach"""
@@ -192,16 +161,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m):
         l2_norm_clip=FLAGS.l2_norm_clip,
         noise_multiplier=FLAGS.noise_multiplier,
         num_microbatches=FLAGS.microbatches,
-        layers=get_layers())
-
-    # optimizer = DPKerasSGDOptimizer(
-    #     l2_norm_clip=m['l2_norm_clip'],
-    #     noise_multiplier=m['noise_multiplier'],
-    #     num_microbatches=FLAGS.microbatches,
-    #     learning_rate=FLAGS.learning_rate)
-    #
-    # loss = tf.keras.losses.BinaryCrossentropy(
-    #     from_logits=True, reduction=tf.losses.Reduction.NONE)
+        layers=get_layers_Binary_Classification())
 
     optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
 
@@ -212,161 +172,241 @@ def calculate_model(x_train, x_test, y_train, y_test, m):
                         validation_data=(x_test, y_test),
                         batch_size=FLAGS.batch_size)
 
+    log_plots_dp(history, m)
+
+
+def log_plots_dp(history, m):
+    history_dict = history.history
+    history_df = pd.DataFrame(history_dict)
     # summarize history for accuracy
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
-    plt.title('model accuracy with noise: ' + str(m['noise_multiplier']) + ', l2_norm_clip: ' + str(m['l2_norm_clip']))
+    plt.title(
+        'DP Model accuracy with noise: ' + str(m['noise_multiplier']) + ', l2_norm_clip: ' + str(m['l2_norm_clip']))
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
+    plt.grid(True)
+    plt.tight_layout()
+    # save png of the plot
+    plt.savefig(str(actual_dir) + "dp_acc_n_" + str(m['noise_multiplier']).replace(".", "_")
+                + "l2_" + str(m['l2_norm_clip']).replace(".", "_"))
+    # log to wandb
+    wandb.log({"Training accuracy metrics of DP model": plt})
     plt.show()
+
     # summarize history for loss
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
-    plt.title('model loss with noise: ' + str(m['noise_multiplier']) + ', l2_norm_clip: ' + str(m['l2_norm_clip']))
+    plt.title('DP Model loss with noise: ' + str(m['noise_multiplier']) + ', l2_norm_clip: ' + str(m['l2_norm_clip']))
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
+    plt.grid(True)
+    plt.tight_layout()
+    # save png of the plot
+    plt.savefig(str(actual_dir) + "dp_loss_n_" + str(m['noise_multiplier']).replace(".", "_")
+                + "l2_" + str(m['l2_norm_clip']).replace(".", "_"))
+    # log to wandb
+    wandb.log({"Training accuracy metrics of DP model": plt})
+    plt.show()
+
+    # log wandb plot
+    title = "Training accuracy metrics of DP model: noise=%s, l2_norm_clip=%s" % (str(m['noise_multiplier']),
+                                                                                  str(m['l2_norm_clip']))
+    wandb.log(
+        {"Training accuracy metrics of DP model":
+            wandb.plot.line_series(
+                xs=history_df.index,
+                ys=[history_df["accuracy"],
+                    history_df["val_accuracy"]],
+                keys=["accuracy", "val_accuracy"],
+                title=title,
+                xname="epochs")})
+    title = "Training loss metrics of DP model: noise=%s, l2_norm_clip=%s" % (str(m['noise_multiplier']),
+                                                                              str(m['l2_norm_clip']))
+    wandb.log(
+        {"Training loss metrics of DP model":
+            wandb.plot.line_series(
+                xs=history_df.index,
+                ys=[history_df["loss"],
+                    history_df["val_loss"]],
+                keys=["loss", "val_loss"],
+                title=title,
+                xname="epochs")})
+
+
+def log_plots_baseline(history, index):
+    history_dict = history.history
+    history_df = pd.DataFrame(history_dict)
+    # summarize history for accuracy
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.grid(True)
+    plt.tight_layout()
+    if index == 0:
+        plt.title('Binary model accuracy metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
+                  + str(FLAGS.microbatches) + ", ")
+
+        plt.savefig(str(actual_dir) + "baseline_binary_acc")
+        # log wandb plot
+        wandb.log(
+            {"Training accuracy metrics of baseline Binary Classification model":
+                wandb.plot.line_series(
+                    xs=history_df.index,
+                    ys=[history_df["accuracy"],
+                        history_df["val_accuracy"]],
+                    keys=["loss", "val_loss"],
+                    title="Training accuracy metrics of baseline Binary Classification model",
+                    xname="epochs")})
+    else:
+        plt.title('Linear model accuracy metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
+                  + str(FLAGS.microbatches) + ", ")
+
+        plt.savefig(str(actual_dir) + "baseline_linear_acc")
+        # log wandb plot
+        wandb.log(
+            {"Training loss metrics of baseline Binary Classification model":
+                wandb.plot.line_series(
+                    xs=history_df.index,
+                    ys=[history_df["loss"],
+                        history_df["val_loss"]],
+                    keys=["loss", "val_loss"],
+                    title="Training loss metrics of baseline Binary Classification model",
+                    xname="epochs")})
+
+    plt.show()
+
+    fig_acc = plt.figure()
+
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.grid(True)
+    plt.tight_layout()
+    if index == 0:
+        plt.title('Binary model loss metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
+                  + str(FLAGS.microbatches) + ", ")
+
+        plt.savefig(str(actual_dir) + "baseline_binary_loss")
+        # log wandb plot
+        wandb.log(
+            {"Training accuracy metrics of baseline Linear Regression model":
+                wandb.plot.line_series(
+                    xs=history_df.index,
+                    ys=[history_df["accuracy"],
+                        history_df["val_accuracy"]],
+                    keys=["loss", "val_loss"],
+                    title="Training accuracy metrics of baseline Linear Regression model",
+                    xname="epochs")})
+    else:
+        plt.title('Linear model loss metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
+                  + str(FLAGS.microbatches) + ", ")
+        plt.savefig(str(actual_dir) + "baseline_linear_loss")
+        # log wandb plot
+        wandb.log(
+            {"Training loss metrics of baseline Linear Regression model":
+                wandb.plot.line_series(
+                    xs=history_df.index,
+                    ys=[history_df["loss"],
+                        history_df["val_loss"]],
+                    keys=["loss", "val_loss"],
+                    title="Training loss metrics of baseline Linear Regression model",
+                    xname="epochs")})
     plt.show()
 
 
 def main():
+    global timestamp, actual_dir
     """ Initialize wandb"""
-    # wandb.init(
-    #     # set the wandb project where this run will be logged
-    #     project="Hyperparameter Tuning in Privacy-Preserving Machine Learning",
-    #
-    #     # track hyperparameters and run metadata
-    #     config={
-    #         "learning_rate": FLAGS.learning_rate,
-    #         "architecture": "CNN",
-    #         "dataset": "heart_2020_cleared",
-    #         "epochs": FLAGS.epochs,
-    #     }
-    # )
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="Hyperparameter Tuning in Privacy-Preserving Machine Learning",
+
+        # track hyperparameters and run metadata
+        config={
+            "learning_rate": FLAGS.learning_rate,
+            "dataset": "heart_2022_no_nans",
+            "epochs": FLAGS.epochs,
+        }
+    )
+
+    """ Create directories for plots """
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + "/"
+    actual_dir = os.path.join("../Plots/", timestamp)
+    os.makedirs(actual_dir)
 
     """ Prepare and split data"""
-    df = get_preprocessed_data()
+    x, y = get_preprocessed_data()
     # Take a look at the number of rows
-    print(df.shape)
+    print("Data shape: " + str(x.shape))
+    print("Labels shape: " + str(y.shape))
 
-    allcol = [col for col in df.columns]
-    allcol.remove('HeartDisease')
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2682926)
+    print("X_train shape: " + str(x_train.shape))
+    print("X_test shape: " + str(x_test.shape))
 
-    x = df[allcol]
-    y = df['HeartDisease']
-    df['AgeCategory'] = df['AgeCategory'] / 80
-
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.19948717)
-    print(x_train.shape)
-    print(x_test.shape)
-
-    """ Classifier wandb """
-    # # Define the training inputs
-    # train_input_fn = tf.estimator.inputs.numpy_input_fn(
-    #     x={"x": input(x_train)[0]},
-    #     y=input(y_train)[1],
-    #     num_epochs=FLAGS.epochs,
-    #     batch_size=FLAGS.batch_size,
-    #     shuffle=True,
-    # )
-    #
-    # # NOTE: We change the summary logging frequency to be every epoch with save_summary_steps
-    # classifier = tf.estimator.DNNClassifier(
-    #     feature_columns=[tf.feature_column.numeric_column("x", shape=[17])],
-    #     hidden_units=[256, 32],
-    #     optimizer=tf.train.AdamOptimizer(1e-6),
-    #     n_classes=10,
-    #     dropout=0.1,
-    #     config=tf.estimator.RunConfig(
-    #         save_summary_steps=x_train.shape[0] / wandb.config.batch_size)
-    # )
-    # # Train the classifier
-    # classifier.train(input_fn=train_input_fn, steps=wandb.config.max_steps)
-    #
-    # # Define the test inputs
-    # test_input_fn = tf.estimator.inputs.numpy_input_fn(
-    #     x={"x": input(x_test)[0]},
-    #     y=input(y_test)[1],
-    #     num_epochs=1,
-    #     shuffle=False
-    # )
-    #
-    # # Evaluate accuracy
-    # accuracy_score = classifier.evaluate(input_fn=test_input_fn)["accuracy"]
-    # print(f"\nTest Accuracy: {accuracy_score:.0%}\n")
-
-    """ Grid Search """
-    if env.bool("DP", False) is True:
-        model_grid = []
-
-        aVals = [1 / 8, .25, .5, 1, 2]
-
-        # for norm_clip in aVals:
-        #     for noise_mul in aVals:
-        #         model_grid.append({
-        #             'l2_norm_clip': FLAGS.l2_norm_clip * norm_clip,
-        #             'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
-        #             'epochs': FLAGS.epochs,
-        #         })
-
-        for noise_mul in aVals:
-            model_grid.append({
-                'l2_norm_clip': FLAGS.l2_norm_clip * aVals[0],
-                'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
-                'epochs': FLAGS.epochs,
-            })
-
-        for m in model_grid:
-            calculate_model(
-                x_train, x_test, y_train, y_test, m
-            )
-
-        # calculate epsilon
-        if env.bool("DP", False) is True:
-            privacy_results = pd.DataFrame(columns=['epsilon', 'noise_multiplier', 'l2_norm_clip'])
-            for m in model_grid:
-                epsilon = compute_epsilon(FLAGS.epochs * 256000 // FLAGS.batch_size, m['noise_multiplier'])
-                new_row = {'epsilon': epsilon, 'noise_multiplier': m['noise_multiplier'],
-                           'l2_norm_clip': m['l2_norm_clip']}
-                privacy_results.loc[len(privacy_results)] = new_row
-                print('Computed epsilon for delta=1e-6: %.2f' % epsilon)
-
-            uniques = privacy_results['l2_norm_clip'].unique()
-            for u in uniques:
-                actual = privacy_results[privacy_results["l2_norm_clip"] == u]
-                plt.plot(actual["noise_multiplier"], actual["epsilon"])
-                plt.title('model epsilon values for l2_norm_clip ' + str(actual['l2_norm_clip']))
-                plt.ylabel('epsilon')
-                plt.xlabel('noise_multiplier')
-                plt.show()
-
-    else:
-        """No Grid Search"""
-        model = create_model()
+    """Get baseline results"""
+    models = create_baseline_models()
+    for index, model in enumerate(models):
         history = model.fit(x_train, y_train,
                             epochs=FLAGS.epochs,
                             validation_data=(x_test, y_test),
                             batch_size=FLAGS.batch_size)
-        # summarize history for accuracy
-        plt.plot(history.history['accuracy'])
-        plt.plot(history.history['val_accuracy'])
-        plt.title('model accuracy')
-        plt.ylabel('accuracy')
-        plt.xlabel('epoch')
-        plt.legend(['train', 'test'], loc='upper left')
-        plt.show()
-        # summarize history for loss
-        plt.plot(history.history['loss'])
-        plt.plot(history.history['val_loss'])
-        plt.title('model loss')
-        plt.ylabel('loss')
-        plt.xlabel('epoch')
-        plt.legend(['train', 'test'], loc='upper left')
-        plt.show()
 
-        if env.bool("DP", False) is True:
-            print('Computed epsilon for delta=1e-6: %.2f' % compute_epsilon(FLAGS.epochs * 256000 // FLAGS.batch_size))
+        log_plots_baseline(history, index)
+    """ Grid Search """
+    model_grid = []
+
+    aVals = [.25, .5, 1, 1.25, 1.5, 2]
+
+    for norm_clip in aVals:
+        for noise_mul in aVals:
+            model_grid.append({
+                'l2_norm_clip': FLAGS.l2_norm_clip * norm_clip,
+                'noise_multiplier': FLAGS.noise_multiplier * noise_mul,
+                'epochs': FLAGS.epochs,
+            })
+
+    for m in model_grid:
+        calculate_model(
+            x_train, x_test, y_train, y_test, m
+        )
+
+    # calculate epsilon
+    if env.bool("DP", False) is True:
+        privacy_results = pd.DataFrame(columns=['epsilon', 'noise_multiplier', 'l2_norm_clip'])
+        for m in model_grid:
+            epsilon = compute_epsilon(FLAGS.epochs * 180000 // FLAGS.batch_size, m['noise_multiplier'])
+            new_row = {'epsilon': epsilon, 'noise_multiplier': m['noise_multiplier'],
+                       'l2_norm_clip': m['l2_norm_clip']}
+            privacy_results.loc[len(privacy_results)] = new_row
+            print("Computed epsilon with l2_norm_clip = " + str(m['l2_norm_clip']) + ", noise_multiplier = " +
+                  str(m['noise_multiplier']) + " is epsilon = " + str(epsilon))
+
+        uniques = privacy_results['l2_norm_clip'].unique()
+        print(uniques)
+        for u in uniques:
+            actual = privacy_results[privacy_results["l2_norm_clip"] == u]
+            print(actual)
+            plt.plot(actual["noise_multiplier"], actual["epsilon"])
+            plt.title('model epsilon values for l2_norm_clip ' + str(u))
+            plt.ylabel('epsilon')
+            plt.xlabel('noise_multiplier')
+            plt.grid(True)
+            plt.tight_layout()
+            plt.savefig(actual_dir + "l2_norm_clip_" + str(u).replace(".", '_'))
+            wandb.log({"Epsilon plot": plt})
+            plt.show()
+
+    wandb.finish()
 
 
 if __name__ == '__main__':
