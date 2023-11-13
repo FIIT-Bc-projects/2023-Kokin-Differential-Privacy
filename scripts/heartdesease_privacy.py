@@ -49,11 +49,13 @@ FLAGS(sys.argv)
 
 def get_layers_Binary_Classification():
     return [tf.keras.layers.InputLayer(input_shape=(39,)),
+            tf.keras.layers.Dropout(0.4),
             tf.keras.layers.Dense(5, activation='relu'),
+            tf.keras.layers.Dropout(0.4),
             tf.keras.layers.Dense(1, activation='sigmoid')]
 
 
-def get_layers_linear_regression():
+def get_layers_Linear_Regression():
     return [tf.keras.layers.Dense(1, activation="linear")]
 
 
@@ -71,7 +73,7 @@ def create_baseline_models():
                                   metrics='accuracy')
 
     model_baseline_linear = tf.keras.Sequential(
-        get_layers_Binary_Classification())
+        get_layers_Linear_Regression())
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=FLAGS.learning_rate)
 
@@ -158,6 +160,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
     if FLAGS.batch_size % FLAGS.microbatches != 0:
         raise ValueError('Batch size should be an integer multiple of the number of microbatches')
 
+    """ Binary classification"""
     model = dp_keras_model.DPSequential(
         l2_norm_clip=m["l2_norm_clip"],
         noise_multiplier=m["noise_multiplier"],
@@ -481,8 +484,9 @@ def main():
             plt.show()
             # plot accuracy graph
             plt.plot(actual["noise_multiplier"], actual["val_acc"])
-            plt.title('model val_acc values for l2_norm_clip ' + str(u))
-            plt.ylabel('val_acc')
+            plt.plot(actual["noise_multiplier"], actual["val_loss"])
+            plt.title('model val_acc, val_loss values for l2_norm_clip ' + str(u))
+            plt.ylabel('val_acc, val_loss')
             plt.xlabel('noise_multiplier')
             plt.grid(True)
             plt.tight_layout()
