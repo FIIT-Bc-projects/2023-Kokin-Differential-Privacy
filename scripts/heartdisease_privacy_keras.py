@@ -142,11 +142,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
     history = tf.keras.callbacks.History()
 
     if m["optimizer"] == '0':
-        model = tf.keras.Sequential(
-            [
-                tf.keras.layers.Dense(5, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(1, activation='sigmoid')])
+        model = tf.keras.Sequential(get_layers_Binary_Classification())
         optimizer = DPKerasSGDOptimizer(
             l2_norm_clip=m["l2_norm_clip"],
             noise_multiplier=m["noise_multiplier"],
@@ -157,11 +153,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
         m["optimizer"] = "SGD-DP"
         m['model'] = 'SGD'
     elif m["optimizer"] == '1':
-        model = tf.keras.Sequential(
-            [
-                tf.keras.layers.Dense(5, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(1, activation='sigmoid')])
+        model = tf.keras.Sequential(get_layers_Binary_Classification())
         optimizer = DPSparseKerasSGDOptimizer(
             l2_norm_clip=m["l2_norm_clip"],
             noise_multiplier=m["noise_multiplier"],
