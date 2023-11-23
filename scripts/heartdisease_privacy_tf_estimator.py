@@ -3,10 +3,11 @@ import datetime
 import os
 import sys
 import dp_accounting
+import openpyxl
 import pandas as pd
 from IPython.display import display
 import numpy as np
-import matplotlib as mpl
+from openpyxl import load_workbook
 import matplotlib.pyplot as plt
 # %matplotlib inline
 import seaborn as sns
@@ -14,21 +15,29 @@ import missingno as msno
 import tensorflow_privacy
 from absl import flags
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from tensorflow import estimator as tf_estimator
 from tensorflow_privacy import DPKerasSGDOptimizer
-from tensorflow_privacy.privacy.optimizers import dp_optimizer_vectorized
-from tensorflow_privacy.privacy.keras_models import dp_keras_model
+from tensorflow_privacy.privacy.optimizers import dp_optimizer
 import wandb
 from environs import Env
+from tensorflow_privacy.privacy.optimizers.dp_optimizer import DPAdamGaussianOptimizer, DPGradientDescentOptimizer
+from custom_utils import MetricHistoryCallback
 
 """ Environmental variables """
 env = Env()
 
 """ Directories and timestamps """
 actual_dir = None
+excel_path = None
 timestamp = None
 logger = None
+
+excel_file_name = "metrics.xlsx"
+metrics_columns = ['model', 'optimizer', 'epsilon', 'noise_multiplier', 'l2_norm_clip', 'acc', 'val_acc', 'loss',
+                   'val_loss', 'batch_size', 'microbatches', 'learning_rate']
+
 """ Hyperparameters """
 
 flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for training')
@@ -44,15 +53,89 @@ flags.DEFINE_integer(
 FLAGS = flags.FLAGS
 FLAGS(sys.argv)
 
-""" Create and compile model"""
+
+# Define an input function for training
+def train_input_fn(features, labels, shuffle=True):
+    dataset = tf.data.Dataset.from_tensor_slices(({"feature": features}, labels))
+    if shuffle:
+        dataset = dataset.shuffle(buffer_size=10000)
+    dataset = dataset.batch(FLAGS.batch_size).repeat(FLAGS.epochs)
+    return dataset
+
+
+# Define an input function for validation
+def val_input_fn(features, labels, batch_size):
+    dataset = tf.data.Dataset.from_tensor_slices(({"feature": features}, labels))
+    dataset = dataset.batch(batch_size)
+    return dataset
 
 
 def get_layers_Binary_Classification():
     return [tf.keras.layers.InputLayer(input_shape=(39,)),
-            tf.keras.layers.Dropout(0.4),
+            tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(5, activation='relu'),
-            tf.keras.layers.Dropout(0.4),
+            tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(1, activation='sigmoid')]
+
+
+def dnn_dp_model(features, labels, mode, params):
+    """Model function for a DNN."""
+    # Define DNN architecture using tf.keras.layers.
+    input_layer = tf.keras.layers.InputLayer(input_shape=(features.shape[1],))
+
+    hidden1 = tf.keras.layers.Dense(5, activation='relu')(input_layer)
+    dropout1 = tf.keras.layers.Dropout(0.2)(hidden1)
+
+    hidden2 = tf.keras.layers.Dense(3, activation='relu')(dropout1)
+    dropout2 = tf.keras.layers.Dropout(0.2)(hidden2)
+
+    logits = tf.keras.layers.Dense(1, activation='sigmoid')(dropout2)
+
+    predictions = tf.nn.sigmoid(logits)
+    predicted_classes = tf.round(predictions)
+
+    # Calculate loss as a vector (to support microbatches in DP-SGD).
+    vector_loss = tf.nn.sigmoid_cross_entropy_with_logits(
+        labels=labels, logits=logits)
+    # Define mean of loss across minibatch (for reporting through tf.Estimator).
+    scalar_loss = tf.reduce_mean(input_tensor=vector_loss)
+
+    if mode == tf.estimator.ModeKeys.TRAIN:
+        optimizer = "adam"
+        train_op = None
+        callback = MetricHistoryCallback()
+        if params['optimizer'] == '0':
+            optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=FLAGS.learning_rate)
+            params['optimizer'] = "SGD-NO-DP"
+            train_op = optimizer.minimize(scalar_loss, global_step=tf.compat.v1.train.get_global_step())
+        elif params['optimizer'] == '1':
+            optimizer = DPGradientDescentOptimizer(
+                l2_norm_clip=params["l2_norm_clip"],
+                noise_multiplier=params["noise_multiplier"],
+                num_microbatches=FLAGS.microbatches,
+                learning_rate=FLAGS.learning_rate)
+            params['optimizer'] = "SGD-DP"
+            train_op = optimizer.minimize(scalar_loss)
+        elif params['optimizer'] == '2':
+            optimizer = DPAdamGaussianOptimizer(
+                l2_norm_clip=params["l2_norm_clip"],
+                noise_multiplier=params["noise_multiplier"],
+                num_microbatches=FLAGS.microbatches,
+                learning_rate=FLAGS.learning_rate)
+            params['optimizer'] = "ADAM-DP"
+            # Wrap the optimizer with privacy computations
+            train_op = optimizer.minimize(scalar_loss, global_step=tf.compat.v1.train.get_global_step())
+
+        return tf.estimator.EstimatorSpec(
+            mode, loss=scalar_loss, train_op=train_op, training_hooks=[callback]
+        )
+
+    if mode == tf.estimator.ModeKeys.EVAL:
+        accuracy = tf.compat.v1.metrics.accuracy(labels=labels, predictions=predicted_classes)
+        val_loss = tf.reduce_sum(tf.nn.sigmoid_cross_entropy_with_logits(labels=labels, logits=logits)) / tf.cast(
+            tf.shape(labels)[0], tf.float32)
+        val_metric_ops = {'accuracy': accuracy, 'val_loss': val_loss}
+        return tf.estimator.EstimatorSpec(mode, loss=scalar_loss, eval_metric_ops=val_metric_ops)
 
 
 def get_layers_Linear_Regression():
@@ -84,45 +167,6 @@ def create_baseline_models():
     model.append(model_baseline_binary)
     model.append(model_baseline_linear)
     return model
-
-
-""" Computes epsilon value for given hyperparameters """
-
-
-def compute_epsilon(steps):
-    if FLAGS.noise_multiplier == 0.0:
-        return float('inf')
-    orders = [1 + x / 10. for x in range(1, 100)] + list(range(12, 64))
-    accountant = dp_accounting.rdp.RdpAccountant(orders)
-
-    sampling_probability = FLAGS.batch_size / 180000
-    event = dp_accounting.SelfComposedDpEvent(
-        dp_accounting.PoissonSampledDpEvent(
-            sampling_probability,
-            dp_accounting.GaussianDpEvent(FLAGS.noise_multiplier)), steps)
-
-    accountant.compose(event)
-
-    # Delta is set to 1e-6 because dataset has 239846 training points.
-    return accountant.get_epsilon(target_delta=1e-6)
-
-
-def compute_epsilon_noise(steps, noise_multiplier):
-    if noise_multiplier == 0.0:
-        return float('inf')
-    orders = [1 + x / 10. for x in range(1, 100)] + list(range(12, 64))
-    accountant = dp_accounting.rdp.RdpAccountant(orders)
-
-    sampling_probability = FLAGS.batch_size / 180000
-    event = dp_accounting.SelfComposedDpEvent(
-        dp_accounting.PoissonSampledDpEvent(
-            sampling_probability,
-            dp_accounting.GaussianDpEvent(noise_multiplier)), steps)
-
-    accountant.compose(event)
-
-    # Delta is set to 1e-6 because dataset has 239846 training points.
-    return accountant.get_epsilon(target_delta=1e-6)
 
 
 def get_preprocessed_data():
@@ -161,22 +205,18 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
         raise ValueError('Batch size should be an integer multiple of the number of microbatches')
 
     """ Binary classification"""
-    model = dp_keras_model.DPSequential(
-        l2_norm_clip=m["l2_norm_clip"],
-        noise_multiplier=m["noise_multiplier"],
-        num_microbatches=FLAGS.microbatches,
-        layers=get_layers_Binary_Classification())
+    estimator = tf.estimator.Estimator(
+        model_fn=dnn_dp_model,
+        params=m,
+    )
 
-    optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
-    # optimizer = DPKerasSGDOptimizer(
-    #                 l2_norm_clip=m["l2_norm_clip"],
-    #                 noise_multiplier=m["noise_multiplier"],
-    #                 num_microbatches=FLAGS.microbatches,
-    #                 learning_rate=FLAGS.learning_rate)
-
-    loss = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-
-    model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
+    # Extract column names from the DataFrame
+    feature_columns = x_train.columns.tolist()
+    # Create numeric feature columns for each column in the DataFrame
+    numeric_feature_columns = [tf.feature_column.numeric_column(key=feature) for feature in feature_columns]
+    input_dim = x_train.shape[1]
+    numeric_feature_columns = [tf.feature_column.numeric_column(key=feature, shape=(input_dim,)) for feature in
+                               feature_columns]
 
     print("Training with batch_size = " + str(FLAGS.batch_size) +
           ", microbatches = " + str(FLAGS.microbatches) +
@@ -184,10 +224,22 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
           ", noise_multiplier = " + str(m["noise_multiplier"]) +
           ", learning_rate = " + str(FLAGS.learning_rate))
 
-    history = model.fit(x_train, y_train,
-                        epochs=FLAGS.epochs,
-                        validation_data=(x_test, y_test),
-                        batch_size=FLAGS.batch_size)
+
+
+    for epoch in range(FLAGS.epochs):
+        # Train the Estimator
+        estimator.train(
+            input_fn=lambda: train_input_fn(x_train, y_train, shuffle=True)
+        )
+
+        # Evaluate the Estimator on the validation set
+        eval_result = estimator.evaluate(
+            input_fn=lambda: val_input_fn(x_test, y_test, batch_size=FLAGS.batch_size)
+        )
+
+        print(f"Epoch {epoch + 1}/{FLAGS.epochs}")
+        print("Validation Loss:", eval_result['loss'])
+        print("Validation Accuracy:", eval_result['accuracy'])
 
     m['acc'] = round(history.history['accuracy'][-1], 4)
     m['val_acc'] = round(history.history['val_accuracy'][-1], 4)
@@ -199,29 +251,14 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
           ", loss = " + str(history.history['loss'][-1]) +
           ", val_loss = " + str(history.history['val_loss'][-1]))
 
-    log_plots_dp(history, m, index)
+    log_metrics_dp(history, m, index)
 
 
-def log_plots_dp(history, m, index):
+def log_metrics_dp(history, m, index):
     history_dict = history.history
     history_df = pd.DataFrame(history_dict)
-    # # summarize history for accuracy
-    # plt.plot(history.history['accuracy'])
-    # plt.plot(history.history['val_accuracy'])
-    # plt.title(
-    #     'DP Model accuracy with noise: ' + str(m['noise_multiplier']) + ', l2_norm_clip: ' + str(m['l2_norm_clip']))
-    # plt.ylabel('accuracy')
-    # plt.xlabel('epoch')
-    # plt.legend(['train', 'test'], loc='upper left')
-    # plt.grid(True)
-    # plt.tight_layout()
-    # # save png of the plot
-    # plt.savefig(str(actual_dir) + "dp_acc_n_" + str(m['noise_multiplier']).replace(".", "_")
-    #             + "l2_" + str(m['l2_norm_clip']).replace(".", "_"), bbox_inches='tight')
-    #
-    # plt.show()
 
-    # summarize history for loss
+    # summarize history for metrics
     plt.plot(history.history['accuracy'])
     for i, metric in enumerate(history.history['accuracy']):
         plt.text(i, history.history['accuracy'][i], f'{round(metric, 4)}', ha='right')
@@ -267,55 +304,39 @@ def log_plots_dp(history, m, index):
                 title=title,
                 xname="epochs")})
 
-    # log wandb plot
-    # title = "Accuracy metrics of DP model training: noise=%s, l2_norm_clip=%s" % (str(m['noise_multiplier']),
-    #                                                                               str(m['l2_norm_clip']))
-    # wandb.log(
-    #     {"Training accuracy metrics of DP model (" + str(index) + ")":
-    #         wandb.plot.line_series(
-    #             xs=history_df.index,
-    #             ys=[history_df["accuracy"],
-    #                 history_df["val_accuracy"]],
-    #             keys=["accuracy", "val_accuracy"],
-    #             title=title,
-    #             xname="epochs")})
-    # title = "Loss metrics of DP model training: noise=%s, l2_norm_clip=%s" % (str(m['noise_multiplier']),
-    #                                                                           str(m['l2_norm_clip']))
-    # wandb.log(
-    #     {"Training loss metrics of DP model (" + str(index) + ")":
-    #         wandb.plot.line_series(
-    #             xs=history_df.index,
-    #             ys=[history_df["loss"],
-    #                 history_df["val_loss"]],
-    #             keys=["loss", "val_loss"],
-    #             title=title,
-    #             xname="epochs")})
 
-
-def log_plots_baseline(history, index):
+def log_metrics_baseline(history, index):
     history_dict = history.history
     history_df = pd.DataFrame(history_dict)
     # summarize history for accuracy
     plt.plot(history.history['accuracy'])
     for i, metric in enumerate(history.history['accuracy']):
-        plt.text(i, history.history['accuracy'][i], f'{round(metric, 4)}', ha='left')
+        plt.text(i, history.history['accuracy'][i], f'{round(metric, 4)}', ha='right')
 
     plt.plot(history.history['val_accuracy'])
     for i, metric in enumerate(history.history['val_accuracy']):
-        plt.text(i, history.history['val_accuracy'][i], f'{round(metric, 4)}', ha='right')
+        plt.text(i, history.history['val_accuracy'][i], f'{round(metric, 4)}', ha='left')
 
-    plt.ylabel('accuracy')
+    plt.plot(history.history['loss'])
+    for i, metric in enumerate(history.history['loss']):
+        plt.text(i, history.history['loss'][i], f'{round(metric, 4)}', ha='left')
+
+    plt.plot(history.history['val_loss'])
+    for i, metric in enumerate(history.history['val_loss']):
+        plt.text(i, history.history['val_loss'][i], f'{round(metric, 4)}', ha='right')
+
+    plt.ylabel('loss, acc')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
     plt.grid(True)
     plt.tight_layout()
     if index == 0:
-        plt.title('Binary model accuracy metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
-                  + str(FLAGS.microbatches) + ", ")
+        plt.title('Binary model Accuracy and Loss metrics with batch_size = ' + str(FLAGS.batch_size) +
+                  ', microbatches = ' + str(FLAGS.microbatches) + ", ")
 
         plt.savefig(str(actual_dir) + "baseline_binary_acc", bbox_inches='tight')
         wandb.log(
-            {"Accuracy metrics of baseline Binary Classification model":
+            {"Accuracy and Loss metrics of baseline Binary Classification model":
                 wandb.plot.line_series(
                     xs=history_df.index,
                     ys=[history_df["accuracy"],
@@ -324,13 +345,14 @@ def log_plots_baseline(history, index):
                     title="Accuracy metrics of baseline Binary Classification model",
                     xname="epochs"
                 )})
+
     else:
-        plt.title('Linear model accuracy metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = '
-                  + str(FLAGS.microbatches) + ", ")
+        plt.title('Linear model Accuracy and Loss metrics with batch_size = ' + str(FLAGS.batch_size) +
+                  ', microbatches = ' + str(FLAGS.microbatches) + ", ")
 
         plt.savefig(str(actual_dir) + "baseline_linear_acc", bbox_inches='tight')
         wandb.log(
-            {"Loss metrics of baseline Binary Classification model":
+            {"Accuracy and Loss metrics of baseline Binary Classification model":
                 wandb.plot.line_series(
                     xs=history_df.index,
                     ys=[history_df["accuracy"],
@@ -340,55 +362,9 @@ def log_plots_baseline(history, index):
                     xname="epochs")})
     plt.show()
 
-    # summarize history for loss
-    plt.plot(history.history['loss'])
-    for i, metric in enumerate(history.history['loss']):
-        plt.text(i, history.history['loss'][i], f'{round(metric, 4)}', ha='left')
-
-    plt.plot(history.history['val_loss'])
-    for i, metric in enumerate(history.history['val_loss']):
-        plt.text(i, history.history['val_loss'][i], f'{round(metric, 4)}', ha='right')
-
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.grid(True)
-    plt.tight_layout()
-    if index == 0:
-        title = 'Binary model loss metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = ' \
-                + str(FLAGS.microbatches) + ", "
-        plt.title(title)
-
-        plt.savefig(str(actual_dir) + "baseline_binary_loss", bbox_inches='tight')
-        wandb.log(
-            {"Loss metrics of baseline Binary Classification model":
-                wandb.plot.line_series(
-                    xs=history_df.index,
-                    ys=[history_df["loss"],
-                        history_df["val_loss"]],
-                    keys=["loss", "val_loss"],
-                    title="Loss metrics of baseline Binary Classification model",
-                    xname="epochs")})
-
-    else:
-        title = 'Linear model loss metrics with batch_size = ' + str(FLAGS.batch_size) + ', microbatches = ' \
-                + str(FLAGS.microbatches) + ", "
-        plt.title(title)
-        plt.savefig(str(actual_dir) + "baseline_linear_loss", bbox_inches='tight')
-        wandb.log(
-            {"Loss metrics of baseline Linear Regression model":
-                wandb.plot.line_series(
-                    xs=history_df.index,
-                    ys=[history_df["loss"],
-                        history_df["val_loss"]],
-                    keys=["loss", "val_loss"],
-                    title="Loss metrics of baseline Linear Regression model",
-                    xname="epochs")})
-    plt.show()
-
 
 def main():
-    global timestamp, actual_dir, logger
+    global timestamp, actual_dir, logger, excel_path
     """ Initialize wandb"""
     logger = wandb.init(
         # set the wandb project where this run will be logged
@@ -407,6 +383,16 @@ def main():
     actual_dir = os.path.join("../Plots/", timestamp)
     os.makedirs(actual_dir)
 
+    """ Create directory for metrics"""
+    excel_dir = os.path.join("../", "Metrics/")
+    if not os.path.exists(excel_dir):
+        os.makedirs(excel_dir)
+    # setup excel_path
+    excel_path = os.path.join(excel_dir, excel_file_name)
+    book = openpyxl.load_workbook(excel_path)
+    writer = pd.ExcelWriter(excel_path, engine='openpyxl', mode='a', if_sheet_exists='overlay')
+    writer.book = book
+
     """ Prepare and split data"""
     x, y = get_preprocessed_data()
     # Take a look at the number of rows
@@ -418,14 +404,38 @@ def main():
     print("X_test shape: " + str(x_test.shape))
 
     """Get baseline results"""
-    models = create_baseline_models()
-    for index, model in enumerate(models):
+    baseline_models = create_baseline_models()
+    baseline_results = pd.DataFrame(columns=metrics_columns)
+    for index, model in enumerate(baseline_models):
         history = model.fit(x_train, y_train,
                             epochs=FLAGS.epochs,
                             validation_data=(x_test, y_test),
                             batch_size=FLAGS.batch_size)
+        if index == 0:
+            m = "DNN-NO-DP"
+        else:
+            m = "LR-NO-DP"
+        new_row = {'model': m,
+                   'optimizer': 'SGD-NO-DP',
+                   'epsilon': "INFINITY",
+                   'noise_multiplier': "0",
+                   'l2_norm_clip': "0",
+                   'acc': round(history.history['accuracy'][-1], 4),
+                   'val_acc': round(history.history['val_accuracy'][-1], 4),
+                   'loss': round(history.history['loss'][-1], 4),
+                   'val_loss': round(history.history['val_loss'][-1], 4),
+                   'batch_size': FLAGS.batch_size,
+                   'microbatches': FLAGS.microbatches,
+                   'learning_rate': FLAGS.learning_rate,
+                   }
 
-        log_plots_baseline(history, index)
+        log_metrics_baseline(history, index)
+        baseline_results.loc[len(baseline_results)] = new_row
+    if "Baseline" not in book.sheetnames:
+        book.create_sheet("Baseline")
+    baseline_results.to_excel(writer, sheet_name="Baseline", startrow=writer.sheets["Baseline"].max_row,
+                              index=True, header=True)
+
     """ Grid Search """
     model_grid = []
 
@@ -440,35 +450,54 @@ def main():
                 'acc': 0,
                 'val_acc': 0,
                 'loss': 0,
-                'val_loss': 0
+                'val_loss': 0,
+                'optimizer': "none"
             })
 
-    for i, m in enumerate(model_grid):
-        calculate_model(
-            x_train, x_test, y_train, y_test, m, i
-        )
+    for optimizer_index in range(0, 2):
+        for i, m in enumerate(model_grid):
+            m['optimizer'] = str(optimizer_index)
+            calculate_model(
+                x_train, x_test, y_train, y_test, m, i
+            )
 
     # calculate epsilon
     if env.bool("DP", False) is True:
-        privacy_results = pd.DataFrame(columns=['epsilon', 'noise_multiplier', 'l2_norm_clip',
-                                                'acc', 'val_acc', 'loss', 'val_loss'])
+        privacy_results = pd.DataFrame(columns=metrics_columns)
         for m in model_grid:
             epsilon = compute_epsilon_noise(FLAGS.epochs * 180000 // FLAGS.batch_size, m['noise_multiplier'])
-            new_row = {'epsilon': epsilon,
+            new_row = {'model': "DNN-DP",
+                       'optimizer': m['optimizer'],
+                       'epsilon': epsilon,
                        'noise_multiplier': m['noise_multiplier'],
                        'l2_norm_clip': m['l2_norm_clip'],
                        'acc': m['acc'],
                        'val_acc': m['val_acc'],
                        'loss': m['loss'],
-                       'val_loss': m['val_loss']
+                       'val_loss': m['val_loss'],
+                       'batch_size': FLAGS.batch_size,
+                       'microbatches': FLAGS.microbatches,
+                       'learning_rate': FLAGS.learning_rate,
                        }
+
             privacy_results.loc[len(privacy_results)] = new_row
             print("Computed epsilon with l2_norm_clip = " + str(m['l2_norm_clip']) + ", noise_multiplier = " +
                   str(m['noise_multiplier']) + " is epsilon = " + str(epsilon))
 
-        uniques = privacy_results['l2_norm_clip'].unique()
-        print(uniques)
-        for u in uniques:
+        models = privacy_results['model'].unique()
+        optimizers = privacy_results['optimizer'].unique()
+        for m in models:
+            for o in optimizers:
+                if m not in book.sheetnames:
+                    book.create_sheet(m + "_" + o)
+                actual = privacy_results[(privacy_results["model"] == m) & (privacy_results["optimizer"] == o)]
+                actual.to_excel(writer, sheet_name=m, startrow=writer.sheets[m].max_row, index=True, header=True)
+
+        writer.save()
+
+        l2_norm_clip_values = privacy_results['l2_norm_clip'].unique()
+        print(l2_norm_clip_values)
+        for u in l2_norm_clip_values:
             actual = privacy_results[privacy_results["l2_norm_clip"] == u]
             # sorted_actual = sorted(actual, key=lambda x: x["val_acc"], reverse=True)
             print(actual)
