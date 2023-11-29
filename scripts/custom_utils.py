@@ -24,12 +24,12 @@ def compute_epsilon_noise(steps, noise_multiplier, batch_size, num_samples):
     return accountant.get_epsilon(target_delta=1e-6)
 
 
-def log_metrics_dp(history, m, index, actual_dir, optimizer):
+def log_metrics_dp(history, m, index, actual_dir, model, optimizer):
     history_dict = history.history
     history_df = pd.DataFrame(history_dict)
-    optimizer_dir = optimizer + '/'
-    if not os.path.exists(actual_dir + optimizer_dir):
-        os.makedirs(actual_dir + optimizer_dir)
+    setup_dir = model + '_' + optimizer + '/'
+    if not os.path.exists(actual_dir + setup_dir):
+        os.makedirs(actual_dir + setup_dir)
 
     # summarize history for metrics
     plt.plot(history.history['accuracy'])
@@ -106,7 +106,7 @@ def log_metrics_baseline(history, index, actual_dir, batch_size, microbatches):
 
     plt.ylabel('loss, acc')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train_acc', 'test_acc', 'train_loss', 'test_loss'], loc='upper left')
     plt.grid(True)
     plt.tight_layout()
     if index == 0:

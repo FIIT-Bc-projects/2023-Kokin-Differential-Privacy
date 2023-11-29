@@ -2,6 +2,7 @@
 import datetime
 import os
 import sys
+import time
 import dp_accounting
 import openpyxl
 import pandas as pd
@@ -33,7 +34,7 @@ logger = None
 
 excel_file_name = "metrics.xlsx"
 metrics_columns = ['model', 'optimizer', 'epsilon', 'noise_multiplier', 'l2_norm_clip', 'batch_size', 'microbatches',
-                   'learning_rate', 'acc', 'val_acc', 'loss', 'val_loss']
+                   'learning_rate', 'training_time', 'acc', 'val_acc', 'loss', 'val_loss']
 """ Training parameters """
 total_steps = 0
 steps_per_epoch = 0
@@ -131,15 +132,10 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
         raise ValueError('Batch size should be an integer multiple of the number of microbatches')
 
     """ Binary classification"""
-    print("Training with batch_size = " + str(FLAGS.batch_size) +
-          ", microbatches = " + str(FLAGS.microbatches) +
-          ", l2_norm_clip = " + str(m["l2_norm_clip"]) +
-          ", noise_multiplier = " + str(m["noise_multiplier"]) +
-          ", learning_rate = " + str(FLAGS.learning_rate))
+
     model = tf.keras.Sequential()
     optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
     loss = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-    history = tf.keras.callbacks.History()
 
     if m["optimizer"] == '0':
         model = tf.keras.Sequential(
@@ -183,11 +179,21 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
         m["optimizer"] = "SGD-NO-DP"
         m['model'] = 'SGD-DP'
 
+    print("Training model " + m['model'] + " with optimizer " + m["optimizer"] +
+          " with batch_size = " + str(FLAGS.batch_size) +
+          ", microbatches = " + str(FLAGS.microbatches) +
+          ", l2_norm_clip = " + str(m["l2_norm_clip"]) +
+          ", noise_multiplier = " + str(m["noise_multiplier"]) +
+          ", learning_rate = " + str(FLAGS.learning_rate))
+
     model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
+    start_time = time.time()
     history = model.fit(x_train, y_train,
                         epochs=FLAGS.epochs,
                         validation_data=(x_test, y_test),
                         batch_size=FLAGS.batch_size)
+    end_time = time.time()
+    m['training_time'] = round(end_time - start_time, 4)
     m['acc'] = round(history.history['accuracy'][-1], 4)
     m['val_acc'] = round(history.history['val_accuracy'][-1], 4)
     m['loss'] = round(history.history['loss'][-1], 4)
@@ -198,7 +204,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
           ", loss = " + str(history.history['loss'][-1]) +
           ", val_loss = " + str(history.history['val_loss'][-1]))
 
-    log_metrics_dp(history, m, index, actual_dir, m['optimizer'])
+    log_metrics_dp(history, m, index, actual_dir, m['model'], m['optimizer'])
 
 
 def main():
@@ -249,10 +255,12 @@ def main():
     baseline_models = create_baseline_models()
     baseline_results = pd.DataFrame(columns=metrics_columns)
     for index, model in enumerate(baseline_models):
+        start_time = time.time()
         history = model.fit(x_train, y_train,
                             epochs=FLAGS.epochs,
                             validation_data=(x_test, y_test),
                             batch_size=FLAGS.batch_size)
+        end_time = time.time()
         if index == 0:
             m = "DNN-NO-DP"
         else:
@@ -265,6 +273,7 @@ def main():
                    'batch_size': FLAGS.batch_size,
                    'microbatches': FLAGS.microbatches,
                    'learning_rate': FLAGS.learning_rate,
+                   'training_time': round(end_time - start_time, 4),
                    'acc': round(history.history['accuracy'][-1], 4),
                    'val_acc': round(history.history['val_accuracy'][-1], 4),
                    'loss': round(history.history['loss'][-1], 4),
@@ -295,7 +304,8 @@ def main():
                     'loss': 0,
                     'val_loss': 0,
                     'optimizer': str(optimizer_index),
-                    'model': 'model'
+                    'model': 'model',
+                    'training_time': 0.0
                 })
 
     for i, m in enumerate(model_grid):
@@ -317,6 +327,7 @@ def main():
                        'batch_size': FLAGS.batch_size,
                        'microbatches': FLAGS.microbatches,
                        'learning_rate': FLAGS.learning_rate,
+                       'training_time': m['training_time'],
                        'acc': m['acc'],
                        'val_acc': m['val_acc'],
                        'loss': m['loss'],
@@ -331,10 +342,13 @@ def main():
         optimizers = privacy_results['optimizer'].unique()
         for m in models:
             for o in optimizers:
-                if m + "_" + o not in book.sheetnames:
-                    book.create_sheet(m + "_" + o)
                 actual = privacy_results[(privacy_results["model"] == m) & (privacy_results["optimizer"] == o)]
-                actual.to_excel(writer, sheet_name=m, startrow=writer.sheets[m].max_row, index=True, header=True)
+                if len(actual) != 0:
+                    sheet_name = m + "_" + o
+                    if sheet_name not in book.sheetnames:
+                        book.create_sheet(sheet_name)
+                    actual.to_excel(writer, sheet_name=sheet_name, startrow=writer.sheets[sheet_name].max_row, index=True,
+                                    header=True)
 
         writer.save()
 
