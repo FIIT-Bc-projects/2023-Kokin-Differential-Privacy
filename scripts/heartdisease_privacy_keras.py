@@ -45,10 +45,10 @@ flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for training')
 flags.DEFINE_float('noise_multiplier', 1,
                    'Ratio of the standard deviation to the clipping norm')
 flags.DEFINE_float('l2_norm_clip', 0.6, 'Clipping norm')
-flags.DEFINE_integer('batch_size', 25, 'Batch size')
+flags.DEFINE_integer('batch_size', 30, 'Batch size')
 flags.DEFINE_integer('epochs', 6, 'Number of epochs')
 flags.DEFINE_integer(
-    'microbatches', 25, 'Number of microbatches '
+    'microbatches', 30, 'Number of microbatches '
                         '(must evenly divide batch_size)')
 
 FLAGS = flags.FLAGS
