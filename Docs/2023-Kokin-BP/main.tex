@@ -1,0 +1,95 @@
+% TEMPLATE AUTHOR: https://bitbucket.org/m_by/fiit-stu-thesis-template-for-latex
+% EDIT: Jozef Gáborík
+
+
+% SETTINGS - LATEX
+% to change name, title, supervisor etc. go to preamble/preamble.tex
+\newcommand{\myFontSize}[0] {12pt}
+\newcommand{\mySpacing}[0] {1.5}
+\newcommand{\myBibliography}[0] {bib/refs, appendices/refs1}
+
+\documentclass[\myFontSize,a4paper,twoside,openright,english]{book}
+\usepackage{glossaries}
+\usepackage{float}
+\usepackage{longtable}
+\setacronymstyle{long-short}
+\newacronym{ml}{ML}{Machine learning}
+\newacronym{dl}{DL}{Deep learning}
+\newacronym{dp}{DP}{Differential privacy}
+\newacronym{dnn}{DNN}{Deep neural network}
+\newacronym{cnn}{CNN}{Convolutional neural network}
+\newacronym{rnn}{RNN}{Recurrent neural network}
+\newacronym{its}{ITS}{Intelligent transport system}
+
+
+\include{preamble/preamble}
+
+\begin{document}
+
+% Minted
+% pygmentize -L styles
+%\usemintedstyle{autumn}
+
+
+% Title page
+\include{preamble/title}
+
+% Annotation
+\include{preamble/annotation}
+
+% Acknowledgements
+\include{preamble/acknowledgements}
+
+
+
+% Table of contents
+\tableofcontents{}
+
+% List of listings
+%\listoffigures\newpage{}
+%\renewcommand\listoflistingscaption{List of Listings}
+%\listoflistings\newpage{}
+
+% References segment
+\begin{refsegment}
+
+% Introduction
+\clearpage\null
+\input{content/intro}
+
+% Chapter 1
+\clearpage\null
+\input{content/chapter1}
+
+% Evaluation
+\clearpage\null
+\input{content/eva}
+
+% Related Work
+\clearpage\null
+\input{content/related}
+
+% Conclusion
+\clearpage\null
+\input{content/conclusion}
+
+% Resume
+\clearpage\null
+\input{content/resume}
+
+% Bibliography
+\clearpage\null
+\printbibliography[heading=references,segment=\therefsegment, resetnumbers=true]
+
+\end{refsegment}
+
+% Appendix
+\appendix
+
+\clearpage\null
+\include{appendices/appendix1}
+
+\clearpage\null
+\include{appendices/cdrom}
+
+\end{document}

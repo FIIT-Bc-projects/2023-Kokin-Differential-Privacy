@@ -138,11 +138,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
     loss = tf.keras.losses.BinaryCrossentropy(from_logits=False)
 
     if m["optimizer"] == '0':
-        model = tf.keras.Sequential(
-            [
-                tf.keras.layers.Dense(5, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(1, activation='sigmoid')])
+        model = tf.keras.Sequential(get_layers_Binary_Classification())
         optimizer = DPKerasSGDOptimizer(
             l2_norm_clip=m["l2_norm_clip"],
             noise_multiplier=m["noise_multiplier"],
@@ -153,11 +149,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
         m["optimizer"] = "SGD-DP"
         m['model'] = 'SGD'
     elif m["optimizer"] == '1':
-        model = tf.keras.Sequential(
-            [
-                tf.keras.layers.Dense(5, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(1, activation='sigmoid')])
+        model = tf.keras.Sequential(get_layers_Binary_Classification())
         optimizer = DPSparseKerasSGDOptimizer(
             l2_norm_clip=m["l2_norm_clip"],
             noise_multiplier=m["noise_multiplier"],
@@ -210,6 +202,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
 def main():
     global timestamp, actual_dir, logger, excel_path, total_steps, steps_per_epoch, total_samples
     """ Initialize wandb"""
+
     logger = wandb.init(
         # set the wandb project where this run will be logged
         project="Hyperparameter Tuning in Privacy-Preserving Machine Learning",
@@ -360,6 +353,8 @@ def main():
             print(actual)
             # plot epsilon graph
             plt.plot(actual["noise_multiplier"], actual["epsilon"])
+            for i, metric in enumerate(actual["epsilon"]):
+                plt.text(i, actual["epsilon"][i], f'{round(metric, 4)}', ha='right')
             plt.title('model epsilon values for l2_norm_clip ' + str(u))
             plt.ylabel('epsilon')
             plt.xlabel('noise_multiplier')

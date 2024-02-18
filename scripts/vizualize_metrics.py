@@ -4,6 +4,7 @@ import openpyxl
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def plot_acc(df_noise, excel_sheet_dir):
     plt.plot(df_noise['noise_multiplier'], df_noise['avg_acc'])
     for noise in df_noise['noise_multiplier'].unique():
