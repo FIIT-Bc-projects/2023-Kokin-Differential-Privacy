@@ -1,0 +1,3 @@
+Create sweep with ID: 0yaog6hd
+Sweep URL: https://wandb.ai/dpnerds/sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning/sweeps/0yaog6hd
+wandb: WARNING Calling wandb.login() after wandb.init() has no effect.

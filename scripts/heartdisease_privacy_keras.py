@@ -21,7 +21,9 @@ import wandb
 from environs import Env
 from tensorflow_privacy.privacy.optimizers.dp_optimizer_keras_sparse import DPSparseKerasSGDOptimizer
 
-from scripts.custom_utils import log_metrics_dp, log_metrics_baseline, compute_epsilon_noise
+from scripts.batch_utils import log_metrics_dp, log_metrics_baseline
+from scripts.dataset_utils import get_preprocessed_data
+from scripts.dp_utils import get_layers_Binary_Classification, create_baseline_models, compute_epsilon_noise
 
 """ Environmental variables """
 env = Env()
@@ -53,78 +55,6 @@ flags.DEFINE_integer(
 
 FLAGS = flags.FLAGS
 FLAGS(sys.argv)
-
-""" Create and compile model"""
-
-
-def get_layers_Binary_Classification():
-    return [tf.keras.layers.InputLayer(input_shape=(39,)),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(5, activation='relu'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(1, activation='sigmoid')]
-
-
-def get_layers_Linear_Regression():
-    return [tf.keras.layers.Dense(1, activation="linear")]
-
-
-def create_baseline_models():
-    model = []
-
-    """Regular Binary Classification Baseline"""
-    model_baseline_binary = tf.keras.Sequential(
-        get_layers_Binary_Classification())
-
-    optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
-
-    model_baseline_binary.compile(optimizer=optimizer,
-                                  loss='mse',
-                                  metrics='accuracy')
-
-    model_baseline_linear = tf.keras.Sequential(
-        get_layers_Linear_Regression())
-
-    optimizer = tf.keras.optimizers.Adam(learning_rate=FLAGS.learning_rate)
-
-    model_baseline_linear.compile(optimizer=optimizer,
-                                  loss='mean_squared_error',
-                                  metrics='accuracy')
-
-    model.append(model_baseline_binary)
-    model.append(model_baseline_linear)
-    return model
-
-
-def get_preprocessed_data():
-    df = pd.read_csv(os.environ['DATASET_PATH'])
-
-    logger.log({"dataset": wandb.Table(dataframe=df)})
-
-    print(df.LastCheckupTime.value_counts())
-    print(df.State.value_counts())
-    print(df.HadHeartAttack.unique)
-
-    y = df.HadHeartAttack.replace(['Yes', 'No'], [1, 0])
-
-    x = df.drop('HadHeartAttack', axis=1)
-    pd.set_option('display.max_columns', None)
-    display(x)
-
-    # encode categorical data to numerical
-    enc = LabelEncoder()
-    for i in x.columns:
-        if x[i].dtype == 'object':
-            x[i] = enc.fit_transform(x[i])
-    print(x.info())
-
-    x.drop(axis=0, index=x.index[-22:], inplace=True)
-    y.drop(axis=0, index=y.index[-22:], inplace=True)
-
-    return x, y
-
-
-""" Grid search approach"""
 
 
 def calculate_model(x_train, x_test, y_train, y_test, m, index):
@@ -202,7 +132,7 @@ def calculate_model(x_train, x_test, y_train, y_test, m, index):
 def main():
     global timestamp, actual_dir, logger, excel_path, total_steps, steps_per_epoch, total_samples
     """ Initialize wandb"""
-
+    wandb.login()
     logger = wandb.init(
         # set the wandb project where this run will be logged
         project="Hyperparameter Tuning in Privacy-Preserving Machine Learning",
@@ -231,7 +161,7 @@ def main():
     writer.book = book
 
     """ Prepare and split data"""
-    x, y = get_preprocessed_data()
+    x, y = get_preprocessed_data(logger, wandb)
     # Take a look at the number of rows
     print("Data shape: " + str(x.shape))
     print("Labels shape: " + str(y.shape))

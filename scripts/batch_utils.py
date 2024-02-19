@@ -5,24 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import wandb
 
-""" Computes epsilon value for given hyperparameters """
-def compute_epsilon_noise(steps, noise_multiplier, batch_size, num_samples):
-    if noise_multiplier == 0.0:
-        return float('inf')
-    orders = [1 + x / 10. for x in range(1, 100)] + list(range(12, 64))
-    accountant = dp_accounting.rdp.RdpAccountant(orders)
-
-    sampling_probability = batch_size / num_samples
-    event = dp_accounting.SelfComposedDpEvent(
-        dp_accounting.PoissonSampledDpEvent(
-            sampling_probability,
-            dp_accounting.GaussianDpEvent(noise_multiplier)), steps)
-
-    accountant.compose(event)
-
-    # Delta is set to 1e-6 because dataset has 180,000 training points.
-    return accountant.get_epsilon(target_delta=1e-6)
-
 
 def log_metrics_dp(history, m, index, actual_dir, model, optimizer):
     history_dict = history.history
