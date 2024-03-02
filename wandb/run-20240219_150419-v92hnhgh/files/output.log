@@ -1,3 +1,0 @@
-Create sweep with ID: mzxtpsdq
-Sweep URL: https://wandb.ai/dpnerds/sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning/sweeps/mzxtpsdq
-wandb: WARNING Calling wandb.login() after wandb.init() has no effect.

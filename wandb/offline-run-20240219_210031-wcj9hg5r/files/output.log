@@ -1,3 +1,0 @@
-Create sweep with ID: iog16oxd
-Sweep URL: https://wandb.ai/dpnerds/sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning/sweeps/iog16oxd
-wandb: WARNING Calling wandb.login() after wandb.init() has no effect.

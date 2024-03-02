@@ -1,4 +1,0 @@
-
-wandb: WARNING Calling wandb.login() after wandb.init() has no effect.
-Create sweep with ID: lt98985l
-Sweep URL: https://wandb.ai/dpnerds/sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning/sweeps/lt98985l

@@ -1,1 +1,0 @@
-{"Epsilon": 4843.958697036093, "_timestamp": 1709337348.3104274, "_runtime": 78.38905143737793, "_step": 6, "Training_time": 74.7672, "epochs": 4, "loss": 1.442, "accuracy": 0.9109, "val_loss": 1.2924, "val_accuracy": 0.9453, "_wandb": {"runtime": 88}}

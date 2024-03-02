@@ -1,1 +1,0 @@
-{"epochs": 5, "loss": 1.8015, "acc": 0.7108, "val_loss": 0.9903, "val_acc": 0.9443, "_timestamp": 1708555779.180295, "_runtime": 48.96705389022827, "_step": 5, "_wandb": {"runtime": 48}}

@@ -1,1 +1,0 @@
-{"epochs": 5, "loss": 0.3624, "accuracy": 0.9341, "val_loss": 0.2582, "val_accuracy": 0.946, "_timestamp": 1709225446.8689406, "_runtime": 43.390830516815186, "_step": 5, "_wandb": {"runtime": 42}}
