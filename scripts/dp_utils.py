@@ -14,14 +14,14 @@ def get_layers_Linear_Regression():
     return [tf.keras.layers.Dense(1, activation="linear")]
 
 
-def create_baseline_models():
+def create_baseline_models(learning_rate):
     model = []
 
     """Regular Binary Classification Baseline"""
     model_baseline_binary = tf.keras.Sequential(
         get_layers_Binary_Classification())
 
-    optimizer = tf.keras.optimizers.SGD(learning_rate=FLAGS.learning_rate)
+    optimizer = tf.keras.optimizers.SGD(learning_rate=learning_rate)
 
     model_baseline_binary.compile(optimizer=optimizer,
                                   loss='mse',
@@ -30,7 +30,7 @@ def create_baseline_models():
     model_baseline_linear = tf.keras.Sequential(
         get_layers_Linear_Regression())
 
-    optimizer = tf.keras.optimizers.Adam(learning_rate=FLAGS.learning_rate)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
     model_baseline_linear.compile(optimizer=optimizer,
                                   loss='mean_squared_error',

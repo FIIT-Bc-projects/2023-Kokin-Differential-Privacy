@@ -2,3 +2,4 @@ venv
 .idea
 scripts/wandb/
 Dataset/
+wandb/

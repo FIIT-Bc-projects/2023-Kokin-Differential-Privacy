@@ -1,0 +1,34 @@
+2024-02-22 21:01:23,048 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Configure stats pid to 13740
+2024-02-22 21:01:23,048 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Loading settings from C:\Users\glebk\.config\wandb\settings
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Loading settings from D:\Study\BP\wandb\settings
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'project': 'sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning', 'entity': 'dpnerds', 'root_dir': 'D:\\Study\\BP', 'run_id': 'ifys7c2o', 'sweep_param_path': 'D:\\Study\\BP\\wandb\\sweep-snwt3p0m\\config-ifys7c2o.yaml', 'sweep_id': 'snwt3p0m'}
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'scripts\\sweep_training.py', 'program': 'D:\\Study\\BP\\scripts\\sweep_training.py'}
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:_log_setup():506] Logging user logs to D:\Study\BP\wandb\run-20240222_210123-ifys7c2o\logs\debug.log
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:_log_setup():507] Logging internal logs to D:\Study\BP\wandb\run-20240222_210123-ifys7c2o\logs\debug-internal.log
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:init():546] calling init triggers
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:init():552] wandb.init called with sweep_config: {'batch_size': 15, 'epochs': 6, 'l2_norm_clip': 0.3, 'learning_rate': 1e-05, 'noise_multiplier': 0.6}
+config: {'learning_rate': 1e-05, 'dataset': 'heart_2022_no_nans', 'epochs': 6}
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:init():602] starting backend
+2024-02-22 21:01:23,049 INFO    Thread-124:13740 [wandb_init.py:init():606] setting up manager
+2024-02-22 21:01:23,055 INFO    Thread-124:13740 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=spawn, using: spawn
+2024-02-22 21:01:23,061 INFO    Thread-124:13740 [wandb_init.py:init():613] backend started and connected
+2024-02-22 21:01:23,066 INFO    Thread-124:13740 [wandb_run.py:_config_callback():1251] config_cb None None {'batch_size': 15, 'epochs': 6, 'l2_norm_clip': 0.3, 'learning_rate': 1e-05, 'noise_multiplier': 0.6}
+2024-02-22 21:01:23,067 INFO    Thread-124:13740 [wandb_init.py:init():701] updated telemetry
+2024-02-22 21:01:23,107 INFO    Thread-124:13740 [wandb_init.py:init():741] communicating run to backend with 60.0 second timeout
+2024-02-22 21:01:23,503 INFO    Thread-124:13740 [wandb_run.py:_on_init():2133] communicating current version
+2024-02-22 21:01:23,539 INFO    Thread-124:13740 [wandb_run.py:_on_init():2142] got version response upgrade_message: "wandb version 0.16.3 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-02-22 21:01:23,539 INFO    Thread-124:13740 [wandb_init.py:init():789] starting run threads in backend
+2024-02-22 21:01:23,690 INFO    Thread-124:13740 [wandb_run.py:_console_start():2114] atexit reg
+2024-02-22 21:01:23,691 INFO    Thread-124:13740 [wandb_run.py:_redirect():1969] redirect: SettingsConsole.WRAP_RAW
+2024-02-22 21:01:23,691 INFO    Thread-124:13740 [wandb_run.py:_redirect():2034] Wrapping output streams.
+2024-02-22 21:01:23,691 INFO    Thread-124:13740 [wandb_run.py:_redirect():2059] Redirects installed.
+2024-02-22 21:01:23,691 INFO    Thread-124:13740 [wandb_init.py:init():831] run started, returning control to user process
+2024-02-22 21:02:50,984 INFO    Thread-124:13740 [wandb_run.py:_finish():1854] finishing run dpnerds/sweeps-hyperparameter-tuning-in-privacy-preserving-machine-learning/ifys7c2o
+2024-02-22 21:02:50,984 INFO    Thread-124:13740 [wandb_run.py:_atexit_cleanup():2083] got exitcode: 0
+2024-02-22 21:02:50,984 INFO    Thread-124:13740 [wandb_run.py:_restore():2066] restore
+2024-02-22 21:02:50,984 INFO    Thread-124:13740 [wandb_run.py:_restore():2072] restore done
+2024-02-22 21:02:55,725 INFO    Thread-124:13740 [wandb_run.py:_footer_history_summary_info():3422] rendering history
+2024-02-22 21:02:55,726 INFO    Thread-124:13740 [wandb_run.py:_footer_history_summary_info():3454] rendering summary
+2024-02-22 21:02:55,731 INFO    Thread-124:13740 [wandb_run.py:_footer_sync_info():3380] logging synced files

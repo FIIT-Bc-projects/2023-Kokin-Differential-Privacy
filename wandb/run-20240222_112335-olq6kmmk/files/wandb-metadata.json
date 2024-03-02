@@ -1,0 +1,50 @@
+{
+    "os": "Windows-10-10.0.22631-SP0",
+    "python": "3.9.12",
+    "heartbeatAt": "2024-02-22T10:23:36.396104",
+    "startedAt": "2024-02-22T10:23:35.775774",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "D:\\Study\\BP\\scripts\\sweep_training.py",
+    "codePath": "scripts\\sweep_training.py",
+    "git": {
+        "remote": "https://github.com/FIIT-Bc-projects/2023-Kokin-Differential-Privacy.git",
+        "commit": "29c109dce8369e0a80636131c244b4bfaf3b5d02"
+    },
+    "email": "xkokin@stuba.sk",
+    "root": "D:/Study/BP",
+    "host": "McLovin",
+    "username": "glebk",
+    "executable": "D:\\Study\\BP\\venv\\Scripts\\python.exe",
+    "cpu_count": 8,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 2555.0,
+        "min": 0.0,
+        "max": 3201.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2555.0,
+            "min": 0.0,
+            "max": 3201.0
+        }
+    ],
+    "disk": {
+        "total": 781.2499961853027,
+        "used": 210.97149276733398
+    },
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+            "memory_total": 6442450944
+        }
+    ],
+    "memory": {
+        "total": 31.351802825927734
+    }
+}

@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 163, in __getattr__
+    return self.__getitem__(key)
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 130, in __getitem__
+    return self._items[key]
+KeyError: 'nicrobatches'
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "D:\Study\BP\scripts\sweep_training.py", line 193, in <module>
+    main()
+  File "D:\Study\BP\scripts\sweep_training.py", line 172, in main
+    wandb.agent(sweep_id, function=sweep_train_dp_sgd(), count=147)
+  File "D:\Study\BP\scripts\sweep_training.py", line 55, in sweep_train_dp_sgd
+    num_microbatches=wandb.config.nicrobatches,  # wandb.config.microbatches
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 165, in __getattr__
+    raise AttributeError(
+AttributeError: <class 'wandb.sdk.wandb_config.Config'> object has no attribute 'nicrobatches'
+Traceback (most recent call last):
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 163, in __getattr__
+    return self.__getitem__(key)
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 130, in __getitem__
+    return self._items[key]
+KeyError: 'nicrobatches'
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "D:\Study\BP\scripts\sweep_training.py", line 193, in <module>
+    main()
+  File "D:\Study\BP\scripts\sweep_training.py", line 172, in main
+    wandb.agent(sweep_id, function=sweep_train_dp_sgd(), count=147)
+  File "D:\Study\BP\scripts\sweep_training.py", line 55, in sweep_train_dp_sgd
+    num_microbatches=wandb.config.nicrobatches,  # wandb.config.microbatches
+  File "D:\Study\BP\venv\lib\site-packages\wandb\sdk\wandb_config.py", line 165, in __getattr__
+    raise AttributeError(
+AttributeError: <class 'wandb.sdk.wandb_config.Config'> object has no attribute 'nicrobatches'
+Total samples:  180000

@@ -175,7 +175,7 @@ def main():
     steps_per_epoch = int(np.ceil(total_steps / FLAGS.epochs))
 
     """Get baseline results"""
-    baseline_models = create_baseline_models()
+    baseline_models = create_baseline_models(FLAGS.learning_rate)
     baseline_results = pd.DataFrame(columns=metrics_columns)
     for index, model in enumerate(baseline_models):
         start_time = time.time()

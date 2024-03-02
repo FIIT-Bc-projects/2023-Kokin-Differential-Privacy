@@ -5,10 +5,10 @@ from IPython.core.display_functions import display
 from sklearn.preprocessing import LabelEncoder
 
 
-def get_preprocessed_data(logger, wandb):
+def get_preprocessed_data():
     df = pd.read_csv(os.environ['DATASET_PATH'])
 
-    logger.log({"dataset": wandb.Table(dataframe=df)})
+    # logger.log({"dataset": wandb.Table(dataframe=df)})
 
     # print(df.LastCheckupTime.value_counts())
     # print(df.State.value_counts())
@@ -25,7 +25,7 @@ def get_preprocessed_data(logger, wandb):
     for i in x.columns:
         if x[i].dtype == 'object':
             x[i] = enc.fit_transform(x[i])
-    print(x.info())
+    # print(x.info())
 
     x.drop(axis=0, index=x.index[-22:], inplace=True)
     y.drop(axis=0, index=y.index[-22:], inplace=True)

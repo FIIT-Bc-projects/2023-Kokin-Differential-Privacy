@@ -1,0 +1,12 @@
+wandb_version: 1
+
+batch_size:
+  value: 45
+epochs:
+  value: 10
+l2_norm_clip:
+  value: 1.0911417881096055
+learning_rate:
+  value: 1.2727255987968989e-05
+noise_multiplier:
+  value: 9.854307711250607

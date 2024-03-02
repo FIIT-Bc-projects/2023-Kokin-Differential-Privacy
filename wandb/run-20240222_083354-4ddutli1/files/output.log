@@ -1,0 +1,35 @@
+Total samples:  180000
+Epoch 1/6
+
+
+6000/6000 [==============================] - 9s 1ms/step - loss: 0.5849 - accuracy: 0.9175 - val_loss: 0.4776 - val_accuracy: 0.9446
+Epoch 2/6
+
+
+
+6000/6000 [==============================] - 7s 1ms/step - loss: 0.4940 - accuracy: 0.9341 - val_loss: 0.4055 - val_accuracy: 0.9446
+Epoch 3/6
+
+
+6000/6000 [==============================] - 7s 1ms/step - loss: 0.4426 - accuracy: 0.9355 - val_loss: 0.3927 - val_accuracy: 0.9446
+Epoch 4/6
+
+
+
+6000/6000 [==============================] - 7s 1ms/step - loss: 0.4327 - accuracy: 0.9395 - val_loss: 0.3883 - val_accuracy: 0.9446
+Epoch 5/6
+
+
+6000/6000 [==============================] - 7s 1ms/step - loss: 0.4175 - accuracy: 0.9408 - val_loss: 0.3887 - val_accuracy: 0.9446
+Epoch 6/6
+
+
+
+6000/6000 [==============================] - 7s 1ms/step - loss: 0.4074 - accuracy: 0.9426 - val_loss: 0.3541 - val_accuracy: 0.9446
+Training time: 44.9342
+{'epochs': 0, 'loss': 0.5849, 'acc': 0.9175, 'val_loss': 0.4776, 'val_acc': 0.9446}
+{'epochs': 1, 'loss': 0.494, 'acc': 0.9341, 'val_loss': 0.4055, 'val_acc': 0.9446}
+{'epochs': 2, 'loss': 0.4426, 'acc': 0.9355, 'val_loss': 0.3927, 'val_acc': 0.9446}
+{'epochs': 3, 'loss': 0.4327, 'acc': 0.9395, 'val_loss': 0.3883, 'val_acc': 0.9446}
+{'epochs': 4, 'loss': 0.4175, 'acc': 0.9408, 'val_loss': 0.3887, 'val_acc': 0.9446}
+{'epochs': 5, 'loss': 0.4074, 'acc': 0.9426, 'val_loss': 0.3541, 'val_acc': 0.9446}

@@ -1,0 +1,106 @@
+2024-02-20 08:33:47 INFO open for scan: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\run-wcj9hg5r.wandb
+2024-02-20 08:33:48 INFO watching files in: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files
+2024-02-20 08:33:48 INFO run started: wcj9hg5r with start time 1708372831.990532
+2024-02-20 08:33:48 INFO saving file wandb-metadata.json with policy now
+2024-02-20 08:33:48 INFO saving file wandb-summary.json with policy end
+2024-02-20 08:33:48 INFO handling exit code: 0
+2024-02-20 08:33:48 INFO handling runtime: 3
+2024-02-20 08:33:48 INFO saving file wandb-summary.json with policy end
+2024-02-20 08:33:48 INFO send defer
+2024-02-20 08:33:48 INFO handle sender defer: 0
+2024-02-20 08:33:48 INFO send defer: 1
+2024-02-20 08:33:48 INFO handle sender defer: 1
+2024-02-20 08:33:48 INFO send defer: 2
+2024-02-20 08:33:48 INFO handle sender defer: 2
+2024-02-20 08:33:48 INFO send defer: 3
+2024-02-20 08:33:48 INFO handle sender defer: 3
+2024-02-20 08:33:48 INFO send defer: 4
+2024-02-20 08:33:48 INFO handle sender defer: 4
+2024-02-20 08:33:48 INFO send defer: 5
+2024-02-20 08:33:48 INFO handle sender defer: 5
+2024-02-20 08:33:48 INFO send defer: 6
+2024-02-20 08:33:48 INFO handle sender defer: 6
+2024-02-20 08:33:48 INFO send defer: 7
+2024-02-20 08:33:48 INFO handle sender defer: 7
+2024-02-20 08:33:48 INFO Uploaded file C:\Users\glebk\AppData\Local\Temp\tmptf3d7ccawandb\df26o2te-wandb-metadata.json
+2024-02-20 08:33:49 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\wandb-summary.json
+2024-02-20 08:33:49 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\config.yaml
+2024-02-20 08:33:49 INFO file/dir created: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\output.log
+2024-02-20 08:33:50 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\output.log
+2024-02-20 08:33:52 INFO send defer: 8
+2024-02-20 08:33:52 INFO handle sender defer: 8
+2024-02-20 08:33:52 INFO Attempting to build job artifact
+2024-02-20 08:33:52 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\output.log
+2024-02-20 08:33:52 INFO send defer: 9
+2024-02-20 08:33:52 INFO handle sender defer: 9
+2024-02-20 08:33:52 INFO shutting down directory watcher
+2024-02-20 08:33:53 INFO scan: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files
+2024-02-20 08:33:53 INFO scan save: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\config.yaml config.yaml
+2024-02-20 08:33:53 INFO scan save: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\output.log output.log
+2024-02-20 08:33:53 INFO scan save: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\wandb-metadata.json wandb-metadata.json
+2024-02-20 08:33:53 INFO scan save: D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\wandb-summary.json wandb-summary.json
+2024-02-20 08:33:53 INFO send defer: 10
+2024-02-20 08:33:53 INFO handle sender defer: 10
+2024-02-20 08:33:53 INFO shutting down file pusher
+2024-02-20 08:33:53 INFO shutting down sender
+2024-02-20 08:33:53 INFO shutting down file pusher
+2024-02-20 08:33:53 INFO waiting for file pusher
+2024-02-20 08:33:53 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\config.yaml
+2024-02-20 08:33:53 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\output.log
+2024-02-20 08:33:53 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240219_210031-wcj9hg5r\files\wandb-summary.json
+2024-02-20 08:33:53 INFO send defer: 11
+2024-02-20 08:33:54 INFO file stream finish called
+2024-02-20 08:33:54 INFO file stream finish is done
+2024-02-20 09:25:07 INFO open for scan: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\run-l1tj4fw4.wandb
+2024-02-20 09:25:08 INFO watching files in: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files
+2024-02-20 09:25:08 INFO run started: l1tj4fw4 with start time 1708416100.641604
+2024-02-20 09:25:08 INFO saving file wandb-metadata.json with policy now
+2024-02-20 09:25:08 INFO saving file wandb-summary.json with policy end
+2024-02-20 09:25:08 INFO handling exit code: 0
+2024-02-20 09:25:08 INFO handling runtime: 1
+2024-02-20 09:25:08 INFO saving file wandb-summary.json with policy end
+2024-02-20 09:25:08 INFO send defer
+2024-02-20 09:25:08 INFO handle sender defer: 0
+2024-02-20 09:25:08 INFO send defer: 1
+2024-02-20 09:25:08 INFO handle sender defer: 1
+2024-02-20 09:25:08 INFO send defer: 2
+2024-02-20 09:25:08 INFO handle sender defer: 2
+2024-02-20 09:25:08 INFO send defer: 3
+2024-02-20 09:25:08 INFO handle sender defer: 3
+2024-02-20 09:25:08 INFO send defer: 4
+2024-02-20 09:25:08 INFO handle sender defer: 4
+2024-02-20 09:25:08 INFO send defer: 5
+2024-02-20 09:25:08 INFO handle sender defer: 5
+2024-02-20 09:25:08 INFO send defer: 6
+2024-02-20 09:25:08 INFO handle sender defer: 6
+2024-02-20 09:25:08 INFO send defer: 7
+2024-02-20 09:25:08 INFO handle sender defer: 7
+2024-02-20 09:25:09 INFO Uploaded file C:\Users\glebk\AppData\Local\Temp\tmp79k_u4gpwandb\3xgrylyu-wandb-metadata.json
+2024-02-20 09:25:09 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\config.yaml
+2024-02-20 09:25:09 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\wandb-summary.json
+2024-02-20 09:25:09 INFO file/dir created: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\output.log
+2024-02-20 09:25:10 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\output.log
+2024-02-20 09:25:12 INFO send defer: 8
+2024-02-20 09:25:12 INFO handle sender defer: 8
+2024-02-20 09:25:12 INFO Attempting to build job artifact
+2024-02-20 09:25:12 INFO send defer: 9
+2024-02-20 09:25:12 INFO handle sender defer: 9
+2024-02-20 09:25:12 INFO shutting down directory watcher
+2024-02-20 09:25:12 INFO file/dir modified: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\output.log
+2024-02-20 09:25:12 INFO scan: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files
+2024-02-20 09:25:12 INFO scan save: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\config.yaml config.yaml
+2024-02-20 09:25:12 INFO scan save: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\output.log output.log
+2024-02-20 09:25:12 INFO scan save: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\wandb-metadata.json wandb-metadata.json
+2024-02-20 09:25:12 INFO scan save: D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\wandb-summary.json wandb-summary.json
+2024-02-20 09:25:12 INFO send defer: 10
+2024-02-20 09:25:12 INFO handle sender defer: 10
+2024-02-20 09:25:12 INFO shutting down file pusher
+2024-02-20 09:25:12 INFO shutting down sender
+2024-02-20 09:25:12 INFO shutting down file pusher
+2024-02-20 09:25:12 INFO waiting for file pusher
+2024-02-20 09:25:12 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\config.yaml
+2024-02-20 09:25:12 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\output.log
+2024-02-20 09:25:12 INFO Uploaded file D:\Study\BP\wandb\offline-run-20240220_090140-l1tj4fw4\files\wandb-summary.json
+2024-02-20 09:25:13 INFO send defer: 11
+2024-02-20 09:25:13 INFO file stream finish called
+2024-02-20 09:25:13 INFO file stream finish is done
