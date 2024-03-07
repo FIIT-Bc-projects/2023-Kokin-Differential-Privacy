@@ -2,7 +2,7 @@ import dp_accounting
 import tensorflow as tf
 
 
-def get_layers_Binary_Classification():
+def get_layers_dnn():
     return [tf.keras.layers.InputLayer(input_shape=(39,)),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(5, activation='relu'),
@@ -10,8 +10,12 @@ def get_layers_Binary_Classification():
             tf.keras.layers.Dense(1, activation='sigmoid')]
 
 
-def get_layers_Linear_Regression():
+def get_layers_linear_regression():
     return [tf.keras.layers.Dense(1, activation="linear")]
+
+
+def get_layers_logistic_regression():
+    return [tf.keras.layers.Dense(1, activation="sigmoid", input_dim=39)]
 
 
 def create_baseline_models(learning_rate):
@@ -19,7 +23,7 @@ def create_baseline_models(learning_rate):
 
     """Regular Binary Classification Baseline"""
     model_baseline_binary = tf.keras.Sequential(
-        get_layers_Binary_Classification())
+        get_layers_dnn())
 
     optimizer = tf.keras.optimizers.SGD(learning_rate=learning_rate)
 
@@ -28,7 +32,7 @@ def create_baseline_models(learning_rate):
                                   metrics='accuracy')
 
     model_baseline_linear = tf.keras.Sequential(
-        get_layers_Linear_Regression())
+        get_layers_linear_regression())
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
