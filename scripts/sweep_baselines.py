@@ -6,9 +6,10 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import get_layers_Binary_Classification, get_layers_Linear_Regression
+from scripts.dp_utils import get_layers_dnn, get_layers_logistic_regression
 from scripts.sweep_configuration import sweep_configuration_bayes_baseline_logreg, \
-    sweep_configuration_bayes_baseline_sgd
+    sweep_configuration_bayes_baseline_sgd_dnn, sweep_configuration_grid_baseline_logreg, \
+    sweep_configuration_grid_baseline_sgd_dnn
 
 
 def sweep_train_baseline_logreg():
@@ -36,7 +37,7 @@ def sweep_train_baseline_logreg():
     # print("X_test shape: " + str(x_test.shape))
 
     model_baseline_linear = tf.keras.Sequential(
-        get_layers_Linear_Regression())
+        get_layers_logistic_regression())
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=wandb.config.learning_rate)
 
@@ -97,7 +98,7 @@ def sweep_train_baseline_sgd():
     # print("X_test shape: " + str(x_test.shape))
 
     model_baseline_binary = tf.keras.Sequential(
-        get_layers_Binary_Classification())
+        get_layers_dnn())
 
     optimizer = tf.keras.optimizers.SGD(learning_rate=wandb.config.learning_rate)
 
@@ -136,16 +137,16 @@ def sweep_train_baseline_sgd():
 def main():
     # wandb.login(key=api_key_wandb)
 
-    sweep_id = wandb.sweep(sweep_configuration_bayes_baseline_logreg,
+    sweep_id = wandb.sweep(sweep_configuration_grid_baseline_logreg,
                            project="sweeps-hyperparameter-tuning-in-privacy-preserving"
                                    "-machine-learning")
-    wandb.agent(sweep_id, function=sweep_train_baseline_logreg, count=150)
+    wandb.agent(sweep_id, function=sweep_train_baseline_logreg, count=125)
 
-    # sweep_id = wandb.sweep(sweep_configuration_bayes_baseline_sgd,
-    #                        project="sweeps-hyperparameter-tuning-in-privacy-preserving"
-    #                                "-machine-learning")
-    # wandb.agent(sweep_id, function=sweep_train_baseline_sgd, count=150)
-    # wandb.finish()
+    sweep_id = wandb.sweep(sweep_configuration_grid_baseline_sgd_dnn,
+                           project="sweeps-hyperparameter-tuning-in-privacy-preserving"
+                                   "-machine-learning")
+    wandb.agent(sweep_id, function=sweep_train_baseline_sgd, count=125)
+    wandb.finish()
 
 
 if __name__ == '__main__':

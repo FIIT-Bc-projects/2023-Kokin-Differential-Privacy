@@ -11,7 +11,7 @@ def get_layers_dnn():
 
 
 def get_layers_linear_regression():
-    return [tf.keras.layers.Dense(1, activation="linear")]
+    return [tf.keras.layers.Dense(1, activation="linear", input_dim=39)]
 
 
 def get_layers_logistic_regression():
