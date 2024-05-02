@@ -14,10 +14,11 @@ from scripts.api_key_wandb import api_key_wandb
 from scripts.dataset_utils import get_preprocessed_data
 from scripts.dp_utils import compute_epsilon_noise, get_layers_logistic_regression, \
     get_layers_dnn
-from scripts.sweep_configuration import sweep_configuration_grid_dp_sgd, \
-    sweep_configuration_bayes_dp_sgd, sweep_configuration_bayes_logreg_dp, \
-    sweep_configuration_grid_dp_sgd_patterns, sweep_configuration_grid_dp_logreg_patterns, \
-    sweep_configuration_epsilon_grid
+from scripts.sweep_configuration import sweep_configuration_bayes_logreg_dp, \
+    sweep_configuration_grid_dp_logreg_patterns, \
+    sweep_configuration_epsilon_grid, sweep_configuration_grid_dp_dnn_patterns, sweep_configuration_bayes_dnn_dp, \
+    sweep_configuration_bayes_logreg_dp_learning_rate, sweep_configuration_bayes_dnn_dp_learning_rate, \
+    sweep_configuration_grid_logreg_dp_microbatches, sweep_configuration_grid_dnn_dp_microbatches
 from scripts.sweep_epsilon import sweep_grid_epsilon
 
 MICROBATCHES_STEP = 15
@@ -25,7 +26,7 @@ MICROBATCHES_STEP = 15
 wandb.login()
 
 
-def sweep_train_dp_sgd():
+def sweep_train_dp_dnn():
     global MICROBATCHES_STEP
 
     wandb.init(
@@ -66,7 +67,7 @@ def sweep_train_dp_sgd():
                                     wandb.config.noise_multiplier,
                                     wandb.config.batch_size, total_samples)
 
-    wandb.log({"Epsilon": epsilon})
+    wandb.log({"epsilon": epsilon})
     print("Epsilon: " + str(epsilon))
 
     training_time = round(end_time - start_time, 4)
@@ -157,7 +158,7 @@ def sweep_train_dp_logreg():
                                     wandb.config.noise_multiplier,
                                     wandb.config.batch_size, total_samples)
 
-    wandb.log({"Epsilon": epsilon})
+    wandb.log({"epsilon": epsilon})
     print("Epsilon: " + str(epsilon))
 
     training_time = round(end_time - start_time, 4)
@@ -194,16 +195,16 @@ def main():
     #                                "-machine-learning")
     # wandb.agent(sweep_id, function=sweep_train_dp_sgd, count=100)
     #
-    # sweep_id = wandb.sweep(sweep=sweep_configuration_bayes_dp_sgd,
+    # sweep_id = wandb.sweep(sweep=sweep_configuration_bayes_dnn_dp,
     #                        project="sweeps-hyperparameter-tuning-in-privacy-preserving"
     #                                "-machine-learning")
-    # wandb.agent(sweep_id, function=sweep_train_dp_sgd, count=100)
+    # wandb.agent(sweep_id, function=sweep_train_dp_dnn, count=100)
 
     # sweep_id = wandb.sweep(sweep=sweep_configuration_bayes_logreg_dp, project="sweeps-hyperparameter-tuning-in-privacy"
     #                                                                           "-preserving"
     #                                                                           "-machine-learning")
     # wandb.agent(sweep_id, function=sweep_train_dp_logreg, count=100)
-    #
+
     # sweep_id = wandb.sweep(sweep=sweep_configuration_grid_dp_sgd_patterns, project="sweeps-hyperparameter-tuning-in"
     #                                                                                "-privacy"
     #                                                                                "-preserving"
@@ -216,17 +217,41 @@ def main():
     #                                                                        "-machine-learning")
     # wandb.agent(sweep_id, function=sweep_grid_epsilon, count=20)
 
-    # sweep_id = wandb.sweep(sweep=sweep_configuration_grid_dp_logreg_patterns, project="sweeps-hyperparameter-tuning-in"
-    #                                                                                   "-privacy"
-    #                                                                                   "-preserving"
-    #                                                                                   "-machine-learning")
-    # wandb.agent(sweep_id, function=sweep_train_dp_logreg, count=60)
-
     sweep_id = wandb.sweep(sweep=sweep_configuration_grid_dp_logreg_patterns, project="sweeps-hyperparameter-tuning-in"
                                                                                       "-privacy"
                                                                                       "-preserving"
                                                                                       "-machine-learning")
     wandb.agent(sweep_id, function=sweep_train_dp_logreg, count=60)
+
+    sweep_id = wandb.sweep(sweep=sweep_configuration_grid_dp_dnn_patterns, project="sweeps-hyperparameter-tuning-in"
+                                                                                   "-privacy"
+                                                                                   "-preserving"
+                                                                                   "-machine-learning")
+    wandb.agent(sweep_id, function=sweep_train_dp_dnn, count=60)
+
+    # sweep_id = wandb.sweep(sweep=sweep_configuration_bayes_logreg_dp_learning_rate,
+    #                        project="sweeps-hyperparameter-tuning-in-privacy"
+    #                                "-preserving"
+    #                                "-machine-learning")
+    # wandb.agent(sweep_id, function=sweep_train_dp_logreg, count=100)
+    #
+    # sweep_id = wandb.sweep(sweep=sweep_configuration_bayes_dnn_dp_learning_rate,
+    #                        project="sweeps-hyperparameter-tuning-in-privacy"
+    #                                "-preserving"
+    #                                "-machine-learning")
+    # wandb.agent(sweep_id, function=sweep_train_dp_dnn, count=100)
+
+    # sweep_id = wandb.sweep(sweep=sweep_configuration_grid_logreg_dp_microbatches,
+    #                        project="sweeps-hyperparameter-tuning-in-privacy"
+    #                                "-preserving"
+    #                                "-machine-learning")
+    # wandb.agent(sweep_id, function=sweep_train_dp_logreg, count=32)
+    #
+    # sweep_id = wandb.sweep(sweep=sweep_configuration_grid_dnn_dp_microbatches,
+    #                        project="sweeps-hyperparameter-tuning-in-privacy"
+    #                                "-preserving"
+    #                                "-machine-learning")
+    # wandb.agent(sweep_id, function=sweep_train_dp_dnn, count=32)
 
     wandb.finish()
 
