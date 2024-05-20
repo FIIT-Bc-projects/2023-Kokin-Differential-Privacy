@@ -3,7 +3,7 @@ venv
 scripts/wandb/
 Dataset/
 wandb/
-scripts/__pychache__
+scripts/__pychache__/
 /Plots/2023-11-08_15-41-42/
 /Metrics/E0CFF000
 /Plots/2023-11-15_16-45-16/
