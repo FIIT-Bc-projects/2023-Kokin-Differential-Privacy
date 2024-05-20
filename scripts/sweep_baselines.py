@@ -6,7 +6,7 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import get_layers_dnn, get_layers_logistic_regression
+from scripts.dp_ml_utils import get_layers_dnn, get_layers_logistic_regression
 from scripts.sweep_configuration import sweep_configuration_bayes_baseline_logreg, \
     sweep_configuration_bayes_baseline_sgd_dnn, sweep_configuration_grid_baseline_logreg, \
     sweep_configuration_grid_baseline_sgd_dnn

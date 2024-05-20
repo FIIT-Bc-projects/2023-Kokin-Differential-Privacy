@@ -3,7 +3,7 @@ from tensorflow_privacy import DPSequential
 from tensorflow_privacy.privacy.keras_models import dp_keras_model
 import tensorflow as tf
 
-from scripts.dp_utils import get_layers_logistic_regression, get_layers_dnn
+from scripts.dp_ml_utils import get_layers_logistic_regression, get_layers_dnn
 
 
 def main():

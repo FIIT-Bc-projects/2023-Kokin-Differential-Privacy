@@ -92,7 +92,7 @@ def log_metrics_baseline(history, index, actual_dir, batch_size, microbatches):
     plt.grid(True)
     plt.tight_layout()
     if index == 0:
-        plt.title('Binary model Accuracy and Loss metrics with batch_size = ' + str(batch_size) +
+        plt.title('DNN model Accuracy and Loss metrics with batch_size = ' + str(batch_size) +
                   ', microbatches = ' + str(microbatches) + ", ")
 
         plt.savefig(str(actual_dir) + "baseline_binary_acc", bbox_inches='tight')
@@ -108,7 +108,7 @@ def log_metrics_baseline(history, index, actual_dir, batch_size, microbatches):
                 )})
 
     else:
-        plt.title('Linear model Accuracy and Loss metrics with batch_size = ' + str(batch_size) +
+        plt.title('Linear regression model Accuracy and Loss metrics with batch_size = ' + str(batch_size) +
                   ', microbatches = ' + str(microbatches) + ", ")
 
         plt.savefig(str(actual_dir) + "baseline_linear_acc", bbox_inches='tight')

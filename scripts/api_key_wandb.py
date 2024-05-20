@@ -1,1 +1,3 @@
-api_key_wandb = 'a625920f5eba75e0fb784de88b9fea5b083b4bae'
+import os
+
+api_key_wandb = os.environ[('WANDB_API_KEY')]

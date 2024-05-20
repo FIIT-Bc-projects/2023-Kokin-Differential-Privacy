@@ -23,7 +23,7 @@ from tensorflow_privacy.privacy.optimizers.dp_optimizer_keras_sparse import DPSp
 
 from scripts.batch_utils import log_metrics_dp, log_metrics_baseline
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import get_layers_Binary_Classification, create_baseline_models, compute_epsilon_noise
+from scripts.dp_ml_utils import get_layers_Binary_Classification, create_baseline_models, compute_epsilon_noise
 
 """ Environmental variables """
 env = Env()

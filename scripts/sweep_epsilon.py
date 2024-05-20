@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import compute_epsilon_noise
+from scripts.dp_ml_utils import compute_epsilon_noise
 
 
 def sweep_grid_epsilon():

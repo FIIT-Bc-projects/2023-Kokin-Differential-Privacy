@@ -12,7 +12,7 @@ from tensorflow_privacy.privacy.logistic_regression.datasets import RegressionDa
 
 from scripts.api_key_wandb import api_key_wandb
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import compute_epsilon_noise, get_layers_logistic_regression, \
+from scripts.dp_ml_utils import compute_epsilon_noise, get_layers_logistic_regression, \
     get_layers_dnn
 from scripts.sweep_configuration import sweep_configuration_bayes_logreg_dp, \
     sweep_configuration_grid_dp_logreg_patterns, \

@@ -16,7 +16,7 @@ import tensorflow as tf
 
 
 from scripts.dataset_utils import get_preprocessed_data
-from scripts.dp_utils import get_layers_dnn, get_layers_logistic_regression
+from scripts.dp_ml_utils import get_layers_dnn, get_layers_logistic_regression
 
 
 def mia(name):
