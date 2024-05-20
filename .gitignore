@@ -3,3 +3,4 @@ venv
 scripts/wandb/
 Dataset/
 wandb/
+scripts/__pychache__
